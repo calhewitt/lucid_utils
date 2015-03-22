@@ -33,7 +33,6 @@ class LucidFile:
 		self.f = open(filename, 'r')
 
 		if tohex(self.f.read(2)) == "DCCC":
-			self.ignore_length = 16
 			header = tohex(self.f.read(14))
 
 			active_detectors = format(int(header[0:2], 16), 'b').zfill(8)[3:]
@@ -49,24 +48,36 @@ class LucidFile:
 			# Workaround for files missing a header
 			print "Warning: The data file is missing a header. It could be invalid."
 			self.config = "Unknown"
-			byte1, byte2 = "", ""
-			while not (byte1 == "DC" and byte2 == "DF"):
-				byte1 = byte2
-				byte2 = tohex(self.f.read(1))
-			self.ignore_length = self.f.tell() - 2
 			if num_active_detectors == None:
 				self.num_active_detectors = input("Enter the number of active detectors: ")
 			else:
 				self.num_active_detectors = num_active_detectors
 
-		# 2 bytes for each pixel
-		self.frame_length = (CHANNEL_LENGTH * self.num_active_detectors) + 7
-		self.num_frames = (os.path.getsize(filename) - self.ignore_length) / self.frame_length
+		# As frames can now be of various lengths, look through the file for markers...
+		self.frame_markers = []
+		self.f.seek(0)
+		pointer = 1
+		b1, b2 = self.f.read(1), self.f.read(1)
+		while True:
+			b1 = b2
+			b2 = self.f.read(1)
+
+			if b2 == "":
+				break
+
+			if tohex(b1) + tohex(b2) == "DCDF":
+				# Found one...
+				self.frame_markers.append(pointer)
+			pointer += 1
+
+		self.num_frames	= len(self.frame_markers) - 1
+		self.frame_markers.pop(self.num_frames) # Last frame is usually incomplete, so remove it
+
 
 	def get_frame(self, index):
 		channels = [None, None, None, None, None]
 
-		self.f.seek(self.ignore_length + (self.frame_length * index))
+		self.f.seek(self.frame_markers[index])
 		frame_header = tohex(self.f.read(7))[4:]
 		timestamp = int(frame_header[0:8], 16)
 
@@ -74,14 +85,33 @@ class LucidFile:
 			channel_id = get_channel_id(tohex(self.f.read(1)))
 			pixels = np.zeros((256, 256))
 
-			for x in range(0, 256):
-				for y in range(0, 256):
-					pixel = bin(int(tohex(self.f.read(2)), 16))[2:].zfill(16)
-					# First 2 bits are always 10 - pixel is only 14 bits long
+			x = 0
+			y = 0
+
+			while y < 256:
+
+				pixel = bin(int(tohex(self.f.read(2)), 16))[2:].zfill(16)
+				# First 2 bits are always 10 - pixel is only 14 bits long
+				if pixel[0:2] == "10":	
 					pixel = float(int(pixel[2:], 2))
 					pixel = (pixel / 11810) * 256
 					pixels[x][y] = pixel
+					x += 1
+				elif pixel[0:2] == "00":
+					# RLE compression is enabled, panic...
+					pixel = float(int(pixel[2:], 2))
+					x += pixel
+					# Phew...
+
+				# If the x pointer goes over the end of the line, reset it to 0 and increment y
+				if x > 255:
+					overflow = x%256 # 100 days after Monday
+					times = int(x)/256 # Integer division - don't want a horrible decimal
+					y += times
+					x = overflow
+
 			channels[channel_id] = pixels
+
 		r_value = LucidFrame()
 		r_value.channels = channels
 		r_value.timestamp = timestamp
