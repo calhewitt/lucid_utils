@@ -1,0 +1,10 @@
+[
+  {
+    "latitude": 4, 
+    "longitude": 3
+  }, 
+  {
+    "latitude": 5, 
+    "longitude": 7
+  }
+]
