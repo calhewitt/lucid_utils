@@ -1,3 +1,0 @@
-#!/bin/bash
-# Grabs and updates the latest TLE file from the SpaceTrak API
-wget  --post-data='identity=calhewitt@outlook.com&password=lucidisthebestexperimentever&query=https://www.space-track.org/basicspacedata/query/class/tle_latest/NORAD_CAT_ID/40076/orderby/ORDINAL asc/limit/1/format/3le/metadata/false' --cookies=on --keep-session-cookies --save-cookies=cookies.txt 'https://www.space-track.org/ajaxauth/login' -O tds1.txt

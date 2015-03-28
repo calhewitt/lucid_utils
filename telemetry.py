@@ -46,7 +46,7 @@ def get_map(latitude, longitude):
 	coordinates['x'] = int(longitude + 180)
 	coordinates['y'] = int(180 - (latitude + 90))
 	
-	image = Image.open(os.path.dirname(os.path.realpath(__file__)) + "/map.png")
+	image = Image.open(os.path.dirname(os.path.realpath(__file__)) + "/img/map.png")
 	# Paint on position
 	draw = ImageDraw.Draw(image)
 	box = (coordinates['x'] - 5, coordinates['y'] - 5, coordinates['x'] + 5, coordinates['y'] + 5)
