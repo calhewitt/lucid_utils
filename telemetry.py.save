@@ -25,7 +25,7 @@ def get_position(tle_file, time = None):
 	if time == None:
 		tle_rec.compute()
 	else:
-		time = datetime.datetime.utcfromtimestamp(time).strftime('%Y/%m/%d %H:%M:%S')
+		time = datetime.datetime.fromtimestamp(time).strftime('%Y/%m/%d %H:%M:%S')
 		tle_rec.compute(time)
 
 	lat = dms_to_dd(tle_rec.sublat)
