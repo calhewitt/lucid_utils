@@ -98,16 +98,14 @@ def get_frames_by_run(run_name):
 			
 	return new_frames
 	
-def get_frames_by_timestamp(timestamp):
+def get_frame_by_timestamp(timestamp):
 	# A bit hacky I know,
 	# TODO built better support for things like this on the server side
 	frames = get_frames_by_run(get_run(timestamp))
-	matches = []
+
 	for frame in frames:
 		if frame.timestamp == timestamp:
-			matches.append(frame)
-	if not len(matches) == 0:
-		return matches
-	else:
-		raise Exception("A frame could not be found with that timestamp")
+			return frame
+
+	raise Exception("A frame could not be found with that timestamp")
 	
