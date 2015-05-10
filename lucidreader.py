@@ -1,5 +1,4 @@
 # Module to parse raw LUCID data files
-# Part of the LUCID frame reader
 
 import os
 from binascii import hexlify
@@ -33,6 +32,7 @@ class LucidFile:
 		self.f = open(filename, 'r')
 
 		if tohex(self.f.read(2)) == "DCCC":
+			# A HEADER! Well there's a surprise...
 			header = tohex(self.f.read(14))
 
 			active_detectors = format(int(header[0:2], 16), 'b').zfill(8)[3:]
@@ -47,11 +47,10 @@ class LucidFile:
 		else:
 			# Workaround for files missing a header
 			print "Warning: The data file is missing a header. It could be invalid."
+			print "Using usual settings..."
 			self.config = "Unknown"
-			if num_active_detectors == None:
-				self.num_active_detectors = input("Enter the number of active detectors: ")
-			else:
-				self.num_active_detectors = num_active_detectors
+			num_active_detectors = 3
+			active_detectors = [True, True, False, True, False]
 
 		# As frames can now be of various lengths, look through the file for markers...
 		self.frame_markers = []
@@ -75,7 +74,12 @@ class LucidFile:
 
 
 	def get_frame(self, index):
-		channels = [None, None, None, None, None]
+		channels = []
+		for i in range(5):
+			if self.active_detectors[i]:
+				channels.append(np.zeros((256, 256)))
+			else:
+				channels.append(None)
 
 		self.f.seek(self.frame_markers[index])
 		frame_header = tohex(self.f.read(7))[4:]
