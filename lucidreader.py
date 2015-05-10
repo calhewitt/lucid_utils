@@ -10,6 +10,7 @@ def tohex(binary):
 	return hexlify(binary).upper()
 
 def get_channel_id(marker):
+	print marker
 	if marker == "C1":
 		return 0
 	elif marker == "C2":
@@ -49,8 +50,8 @@ class LucidFile:
 			print "Warning: The data file is missing a header. It could be invalid."
 			print "Using usual settings..."
 			self.config = "Unknown"
-			num_active_detectors = 3
-			active_detectors = [True, True, False, True, False]
+			self.num_active_detectors = 3
+			self.active_detectors = [True, True, False, True, False]
 
 		# As frames can now be of various lengths, look through the file for markers...
 		self.frame_markers = []
@@ -87,6 +88,7 @@ class LucidFile:
 
 		for i in range(self.num_active_detectors):
 			channel_id = get_channel_id(tohex(self.f.read(1)))
+			print channel_id
 			pixels = np.zeros((256, 256))
 
 			x = 0
@@ -100,12 +102,17 @@ class LucidFile:
 					pixel = float(int(pixel[2:], 2))
 					pixel = (pixel / 11810) * 256
 					pixels[x][y] = pixel
+					print pixel
 					x += 1
 				elif pixel[0:2] == "00":
 					# RLE compression is enabled, panic...
-					pixel = float(int(pixel[2:], 2))
+					pixel = int(pixel, 2)
 					x += pixel
 					# Phew...
+				elif pixel[0:2] == "11":
+					# Oh no, a premature channelly thingy
+					self.f.seek(self.f.tell() - 2)
+					break
 
 				# If the x pointer goes over the end of the line, reset it to 0 and increment y
 				if x > 255:
@@ -117,6 +124,7 @@ class LucidFile:
 			channels[channel_id] = pixels
 
 		r_value = LucidFrame()
+		print self.f.tell()
 		r_value.channels = channels
 		r_value.timestamp = timestamp
 		return r_value
