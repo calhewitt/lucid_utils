@@ -10,7 +10,6 @@ def tohex(binary):
 	return hexlify(binary).upper()
 
 def get_channel_id(marker):
-	print marker
 	if marker == "C1":
 		return 0
 	elif marker == "C2":
@@ -88,7 +87,6 @@ class LucidFile:
 
 		for i in range(self.num_active_detectors):
 			channel_id = get_channel_id(tohex(self.f.read(1)))
-			print channel_id
 			pixels = np.zeros((256, 256))
 
 			x = 0
@@ -102,7 +100,6 @@ class LucidFile:
 					pixel = float(int(pixel[2:], 2))
 					pixel = (pixel / 11810) * 256
 					pixels[x][y] = pixel
-					print pixel
 					x += 1
 				elif pixel[0:2] == "00":
 					# RLE compression is enabled, panic...
@@ -124,7 +121,6 @@ class LucidFile:
 			channels[channel_id] = pixels
 
 		r_value = LucidFrame()
-		print self.f.tell()
 		r_value.channels = channels
 		r_value.timestamp = timestamp
 		return r_value
