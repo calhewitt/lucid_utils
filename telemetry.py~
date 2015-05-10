@@ -37,7 +37,7 @@ def get_position(tle_file = "tds1.txt", time = None):
 
 	return data
 
-def get_current_position(tle_file = "tds1.txt"):
+def get_current_position(tle_file):
 	return get_position(tle_file, None)
 
 def get_map(latitude, longitude):
