@@ -7,6 +7,8 @@ from datetime import datetime
 import Image
 
 def tohex(binary):
+	if not binary:
+		return "0"
 	return hexlify(binary).upper()
 
 def get_channel_id(marker):
