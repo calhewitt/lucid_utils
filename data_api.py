@@ -8,6 +8,8 @@ BASE_PATH = "http://starserver.thelangton.org.uk/lucid-data-browser/api/"
 
 def get_data_files(run = None):
 	stream = urllib.urlopen(BASE_PATH + "get/data_files")
+	if not stream.getcode() == 200:
+		raise Exception("An error occurred whilst processing the request")
 	data_files = json.loads(stream.read())
 	if run:
 		filtered_data_files = []
@@ -16,10 +18,12 @@ def get_data_files(run = None):
 				filtered_data_files.append(data_file)
 		return filtered_data_files
 	return data_files
-	
+
 def get_runs():
 	# Get a list of available data files and extract runs from this
 	stream = urllib.urlopen(BASE_PATH + "get/data_files")
+	if not stream.getcode() == 200:
+		raise Exception("An error occurred whilst processing the request")
 	data_files = json.loads(stream.read())
 	runs = []
 	for data_file in data_files:
@@ -32,6 +36,9 @@ class Frame:
 
 def get_frames(run, file_id):
 	stream = urllib.urlopen(BASE_PATH + "get/frames?data_file=" + str(file_id) + "&run=" + run)
+	print stream.getcode()
+	if not stream.getcode() == 200:
+		raise Exception("That data file could not be found")
 	frames = json.loads(stream.read())
 	updated_frames = []
 	for frame in frames:
