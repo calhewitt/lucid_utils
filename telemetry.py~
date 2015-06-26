@@ -17,7 +17,11 @@ def dms_to_dd(dms):
 		dd = deg - (mins / 60) - (sec / 3600)
 	return dd
 
-def get_position(tle_file = "tds1.txt", time = None):
+def get_position(*args):
+
+	if len(args) == 1: tle_file, time = "tds1.txt", args[0]
+	else: tle_file, time = args[0], args[1]
+
 	# Open TLE file and pass it to pyEphem
 	tle_file = open(os.path.dirname(os.path.realpath(__file__)) + "/" + tle_file, 'r').read()
 	tle_lines = tle_file.split("\n")
@@ -37,7 +41,7 @@ def get_position(tle_file = "tds1.txt", time = None):
 
 	return data
 
-def get_current_position(tle_file):
+def get_current_position(tle_file = "tds1.txt"):
 	return get_position(tle_file, None)
 
 def get_map(latitude, longitude):
