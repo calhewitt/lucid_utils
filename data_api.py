@@ -1,5 +1,4 @@
-# A wrapper for easily accessing the LUCID data API and fetching data in an easily processed format
-
+# A wrapper for easily accessing the LUCID data API and fetching data
 import urllib2 as urllib
 import numpy as np
 import json
@@ -34,9 +33,9 @@ def get_runs():
 class Frame:
 	pass
 
-def get_frames(run, file_id):
+def get_frames(data_file):
+	run, file_id = data_file["run"], data_file["id"]
 	stream = urllib.urlopen(BASE_PATH + "get/frames?data_file=" + str(file_id) + "&run=" + run)
-	print stream.getcode()
 	if not stream.getcode() == 200:
 		raise Exception("That data file could not be found")
 	frames = json.loads(stream.read())
