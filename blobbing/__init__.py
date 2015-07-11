@@ -73,6 +73,5 @@ class BlobFinder:
 
 
 def find(channel, rad = 1):
-	c = channel # Make a copy, so not to wipe out original
-	bf = BlobFinder(c, rad)
+	bf = BlobFinder(channel, rad)
 	return bf.find_blobs()
