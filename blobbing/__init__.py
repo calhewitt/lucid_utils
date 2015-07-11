@@ -3,6 +3,7 @@
 
 import numpy as np
 import math
+from copy import deepcopy
 
 class BlobFinder:
 
@@ -49,7 +50,7 @@ class BlobFinder:
 				if active_pixel > 0:
 					# Create new blob
 					self.blob = [(x, y)]
-					
+
 					self.add(x, y)
 
 					blobs.append(self.blob)
@@ -68,4 +69,10 @@ class BlobFinder:
 	def __init__(self, frame, search_radius):
 
 		self.SQUARE_SIZE = search_radius
-		self.frame = frame
+		self.frame = deepcopy(frame) # Frame object passed in is mutable; without copy original frame is made blank
+
+
+def find(channel, rad = 1):
+	c = channel # Make a copy, so not to wipe out original
+	bf = BlobFinder(c, rad)
+	return bf.find_blobs()
