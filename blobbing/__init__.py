@@ -72,6 +72,6 @@ class BlobFinder:
 		self.frame = deepcopy(frame) # Frame object passed in is mutable; without copy original frame is made blank
 
 
-def find(channel, rad = 1):
+def find(channel, rad = 5):
 	bf = BlobFinder(channel, rad)
 	return bf.find_blobs()
