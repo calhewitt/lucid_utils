@@ -1,5 +1,7 @@
-# A particle recognition algorithm for clusters from Timepix and similar pixel detectors
-# Author: Cal Hewitt  (purely to differentiate this from many others around...)
+# A complete rewrite of the CERN@school particle recognition and classification algorithm,
+# for ease of integration with existing LUCID data and libraries.
+# Can be imported and called from anywhere to identify particle types based on their attributes
+# Author (code): Cal Hewitt, based on an algorithm from http://github.com/cernatschool/cluster-sorter
 
 import numpy as np
 from scipy.optimize import leastsq
@@ -8,9 +10,8 @@ import os
 
 
 # Load up the types file
-# A list of bounds of properties of various particle types, adapted from http://github.com/cernatschool/cluster-sorter
 types = json.loads(open(os.path.dirname(os.path.realpath(__file__)) + "/types.json").read())
-
+# A list of bounds of properties of various particle types, adapted from http://github.com/cernatschool/cluster-sorter
 
 
 def distance(point1, point2):
@@ -93,20 +94,21 @@ class Blob:
         # Set up a dictionary of the blob's own values
         blob_values = {"num_pixels": self.num_pixels,
                         "radius": self.radius,
-                        "density": self.radius,
+                        "density": self.density,
                         "squiggliness": self.squiggliness}
         # Loop through each potential particle type, looking for a match
-        for name, properties in types.iteritems():
-            # Initially, presume the particle is a match
-            match = True
-            # Check through each property, in the form {name: (lower_bound, upper_bound)}
-            for property_name, property_value in properties.iteritems():
-                # If the blob's properties lie outside the bounds specified in the types file, the blob is not a match
-                if blob_values[property_name] < property_value[0] or blob_values[property_name] > property_value[1]:
-                    match = False
-            # If the current particle matches the attributes of the blob, then return its name
-            if match:
-                return name
+        for particle_name, subtypes in types.iteritems():
+            for name, properties in subtypes.iteritems():
+                # Initially, presume the particle is a match
+                match = True
+                # Check through each property, in the form {name: (lower_bound, upper_bound)}
+                for property_name, property_value in properties.iteritems():
+                    # If the blob's properties lie outside the bounds specified in the types file, the blob is not a match
+                    if (blob_values[property_name] < property_value[0]) or (blob_values[property_name] > property_value[1]):
+                        match = False
+                # If the current particle matches the attributes of the blob, then return its name
+                if match:
+                    return particle_name
         # By this point, all potential particles have been checked, so the blob must be something else
         return "other"
 
@@ -115,3 +117,9 @@ def classify(blob):
     # A quick wrapper method for ease of use
     b = Blob(blob)
     return b.classify()
+
+def classify_multiple(blobs):
+    classifications = []
+    for blob in blobs:
+        classifications.append(classify(blob))
+    return classifications

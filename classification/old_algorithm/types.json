@@ -1,4 +1,5 @@
 {
+  "beta": {
     "CurlyBeta": {
         "squiggliness": [
             0.9,
@@ -17,42 +18,6 @@
             0.75
         ]
     },
-    "Bipixel": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            65536.0
-        ],
-        "num_pixels": [
-            2,
-            2
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
-    },
-    "TripixelGamma": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            0.75
-        ],
-        "num_pixels": [
-            3,
-            3
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
-    },
     "SmallBeta": {
         "squiggliness": [
             0.0,
@@ -65,24 +30,6 @@
         "num_pixels": [
             5,
             10
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
-    },
-    "TetrapixelGamma": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            0.71
-        ],
-        "num_pixels": [
-            4,
-            4
         ],
         "density": [
             0.0,
@@ -143,21 +90,113 @@
             0.35
         ]
     },
-    "SmallAlpha": {
+    "TripixelBeta": {
         "squiggliness": [
-            0.74,
+            0.0,
             65536.0
         ],
         "radius": [
-            1.0,
-            2.85
+            0.75,
+            65536.0
+        ],
+        "num_pixels": [
+            3,
+            3
+        ],
+        "density": [
+            0.0,
+            65536.0
+        ]
+    },
+    "BlobbyBeta": {
+        "squiggliness": [
+            0.0,
+            0.9
+        ],
+        "radius": [
+            0.0,
+            4.2
         ],
         "num_pixels": [
             11,
-            24
+            49
         ],
         "density": [
-            0.84,
+            0.35,
+            1.01
+        ]
+    },
+    "BlobWithTail": {
+        "squiggliness": [
+            0.9,
+            65536.0
+        ],
+        "radius": [
+            0.0,
+            20.0
+        ],
+        "num_pixels": [
+            11,
+            49
+        ],
+        "density": [
+            0.0,
+            0.75
+        ]
+    }
+  },
+  "gamma": {
+    "Bipixel": {
+        "squiggliness": [
+            0.0,
+            65536.0
+        ],
+        "radius": [
+            0.0,
+            65536.0
+        ],
+        "num_pixels": [
+            2,
+            2
+        ],
+        "density": [
+            0.0,
+            65536.0
+        ]
+    },
+    "TripixelGamma": {
+        "squiggliness": [
+            0.0,
+            65536.0
+        ],
+        "radius": [
+            0.0,
+            0.75
+        ],
+        "num_pixels": [
+            3,
+            3
+        ],
+        "density": [
+            0.0,
+            65536.0
+        ]
+    },
+    "TetrapixelGamma": {
+        "squiggliness": [
+            0.0,
+            65536.0
+        ],
+        "radius": [
+            0.0,
+            0.71
+        ],
+        "num_pixels": [
+            4,
+            4
+        ],
+        "density": [
+            0.0,
             65536.0
         ]
     },
@@ -178,23 +217,25 @@
             0.0,
             65536.0
         ]
-    },
-    "BlobWithTail": {
+    }
+  },
+  "alpha": {
+    "SmallAlpha": {
         "squiggliness": [
-            0.9,
+            0.74,
             65536.0
         ],
         "radius": [
-            0.0,
-            20.0
+            1.0,
+            2.85
         ],
         "num_pixels": [
             11,
-            49
+            24
         ],
         "density": [
-            0.0,
-            0.75
+            0.84,
+            65536.0
         ]
     },
     "Alpha": {
@@ -232,41 +273,6 @@
             0.0,
             2.0
         ]
-    },
-    "TripixelBeta": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.75,
-            65536.0
-        ],
-        "num_pixels": [
-            3,
-            3
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
-    },
-    "BlobbyBeta": {
-        "squiggliness": [
-            0.0,
-            0.9
-        ],
-        "radius": [
-            0.0,
-            4.2
-        ],
-        "num_pixels": [
-            11,
-            49
-        ],
-        "density": [
-            0.35,
-            1.01
-        ]
     }
+  }
 }
