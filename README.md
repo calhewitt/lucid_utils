@@ -13,7 +13,7 @@ A Python library containing tools for accessing, parsing, analysing and interpre
 
 Or,
 
-```bash
+```shell
 $ sudo apt-get install python-numpy python-scipy python-imaging
 $ sudo pip install PyEphem
 ```
@@ -21,13 +21,13 @@ $ sudo pip install PyEphem
 
 Once all of the above libraries have been installed, simply clone the repo:
 
-```bash
+```shell
 $ git clone https://github.com/calhewitt/lucid-utils
 ```
 
 and copy or link it to your Python libraries folder, for example:
 
-```bash
+```shell
 $ cp lucid-utils /usr/lib/python2.7/lucid_utils
 ```
 
