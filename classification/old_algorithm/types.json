@@ -94,24 +94,6 @@
             65536.0
         ]
     },
-    "LargeBeta": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            10.0,
-            65536.0
-        ],
-        "num_pixels": [
-            50,
-            65536
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
-    },
     "MidBeta": {
         "squiggliness": [
             0.0,
