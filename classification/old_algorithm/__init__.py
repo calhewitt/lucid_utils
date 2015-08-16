@@ -108,7 +108,6 @@ class Blob:
                         match = False
                 # If the current particle matches the attributes of the blob, then return its name
                 if match:
-                    print name
                     return particle_name
         # By this point, all potential particles have been checked, so the blob must be something else
         return "other"
