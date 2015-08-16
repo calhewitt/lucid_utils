@@ -4,6 +4,11 @@
 import numpy as np
 import math
 from copy import deepcopy
+import sys
+
+# Set the maximum recursion level to be eqaul to the maximum number of hit pixels
+# in a cluster, so blobbing on a whited-out frame does not cernatschool
+sys.setrecursionlimit(256**2)
 
 class BlobFinder:
 
