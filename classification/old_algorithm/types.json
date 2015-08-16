@@ -1,4 +1,24 @@
 {
+  "muon": {
+    "muon": {
+      "squiggliness": [
+          0.0,
+          2
+      ],
+      "radius": [
+          30,
+          182
+      ],
+      "num_pixels": [
+          150,
+          2000
+      ],
+      "density": [
+          0.0,
+          0.1
+      ]
+    }
+  },
   "beta": {
     "CurlyBeta": {
         "squiggliness": [
@@ -273,26 +293,6 @@
             0.0,
             2.0
         ]
-    }
-  },
-  "Muon": {
-    "muon": {
-      "squiggliness": [
-          0.0,
-          2
-      ],
-      "radius": [
-          30,
-          182
-      ],
-      "num_pixels": [
-          150,
-          2000
-      ],
-      "density": [
-          0.0,
-          0.1
-      ]
     }
   }
 }
