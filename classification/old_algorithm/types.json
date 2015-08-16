@@ -1,300 +1,108 @@
 {
   "muon": {
     "muon": {
-      "squiggliness": [
-          0.0,
-          2
-      ],
-      "radius": [
-          80,
-          182
-      ],
-      "num_pixels": [
-          200,
-          2000
-      ],
-      "density": [
-          0.0,
-          0.02
-      ]
+      "squiggliness": [0.0, 2],
+      "radius": [80, 182],
+      "num_pixels": [200, 2000],
+      "density": [0.0, 0.02]
     }
   },
   "proton": {
     "proton": {
-      "squiggliness": [
-          0,
-          1
-      ],
-      "radius": [
-          20,
-          80
-      ],
-      "num_pixels": [
-          50,
-          300
-      ],
-      "density": [
-          0.0,
-          0.05
-      ]
+      "squiggliness": [0, 1],
+      "radius": [20, 80],
+      "num_pixels": [50, 300],
+      "density": [0.0, 0.05]
     }
   },
   "beta": {
     "CurlyBeta": {
-        "squiggliness": [
-            0.9,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            20.0
-        ],
-        "num_pixels": [
-            11,
-            49
-        ],
-        "density": [
-            0.0,
-            0.75
-        ]
+        "squiggliness": [0.9 65536.0],
+        "radius": [0.0 20.0],
+        "num_pixels": [11 49],
+        "density": [0.0 0.75]
     },
     "SmallBeta": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            3.6
-        ],
-        "num_pixels": [
-            5,
-            10
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
+        "squiggliness": [0.0 65536.0],
+        "radius": [0.0 3.6],
+        "num_pixels": [5 10],
+        "density": [0.0 65536.0]
     },
     "TetrapixelBeta": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.71,
-            65536.0
-        ],
-        "num_pixels": [
-            4,
-            4
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
+        "squiggliness": [0.0 65536.0],
+        "radius": [0.71 65536.0],
+        "num_pixels": [4 4],
+        "density": [0.0 65536.0]
     },
     "MidBeta": {
-        "squiggliness": [
-            0.0,
-            0.9
-        ],
-        "radius": [
-            3.0,
-            9.99
-        ],
-        "num_pixels": [
-            11,
-            49
-        ],
-        "density": [
-            0.0,
-            0.35
-        ]
+        "squiggliness": [0.0 0.9],
+        "radius": [3.0 9.99],
+        "num_pixels": [11 49],
+        "density": [0.0 0.35]
     },
     "TripixelBeta": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.75,
-            65536.0
-        ],
-        "num_pixels": [
-            3,
-            3
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
+        "squiggliness": [0.0 65536.0],
+        "radius": [0.75 65536.0],
+        "num_pixels": [3 3],
+        "density": [0.0 65536.0]
     },
     "BlobbyBeta": {
-        "squiggliness": [
-            0.0,
-            0.9
-        ],
-        "radius": [
-            0.0,
-            4.2
-        ],
-        "num_pixels": [
-            11,
-            49
-        ],
-        "density": [
-            0.35,
-            1.01
-        ]
+        "squiggliness": [0.0 0.9],
+        "radius": [0.0 4.2],
+        "num_pixels": [11 49],
+        "density": [0.35 1.01]
     },
     "BlobWithTail": {
-        "squiggliness": [
-            0.9,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            20.0
-        ],
-        "num_pixels": [
-            11,
-            49
-        ],
-        "density": [
-            0.0,
-            0.75
-        ]
+        "squiggliness": [0.9 65536.0],
+        "radius": [0.0 20.0],
+        "num_pixels": [11 49],
+        "density": [0.0 0.75]
     }
   },
   "gamma": {
     "Bipixel": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            65536.0
-        ],
-        "num_pixels": [
-            2,
-            2
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
+        "squiggliness": [0.0 65536.0],
+        "radius": [0.0 65536.0],
+        "num_pixels": [2 2],
+        "density": [0.0 65536.0]
     },
     "TripixelGamma": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            0.75
-        ],
-        "num_pixels": [
-            3,
-            3
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
+        "squiggliness": [0.0 65536.0],
+        "radius": [0.0 0.75],
+        "num_pixels": [3 3],
+        "density": [0.0 65536.0]
     },
     "TetrapixelGamma": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            0.71
-        ],
-        "num_pixels": [
-            4,
-            4
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
+        "squiggliness": [0.0 65536.0],
+        "radius": [0.0 0.71],
+        "num_pixels": [4 4],
+        "density": [0.0 65536.0]
     },
     "Monopixel": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            0.0,
-            65536.0
-        ],
-        "num_pixels": [
-            1,
-            1
-        ],
-        "density": [
-            0.0,
-            65536.0
-        ]
+        "squiggliness": [0.0 65536.0],
+        "radius": [0.0 65536.0],
+        "num_pixels": [1 1],
+        "density": [0.0 65536.0]
     }
   },
   "alpha": {
     "SmallAlpha": {
-        "squiggliness": [
-            0.74,
-            65536.0
-        ],
-        "radius": [
-            1.0,
-            2.85
-        ],
-        "num_pixels": [
-            11,
-            24
-        ],
-        "density": [
-            0.84,
-            65536.0
-        ]
+        "squiggliness": [0.74 65536.0],
+        "radius": [1.0 2.85],
+        "num_pixels": [11 24],
+        "density": [0.84 65536.0]
     },
     "Alpha": {
-        "squiggliness": [
-            1.05,
-            2.5
-        ],
-        "radius": [
-            2.5,
-            6.0
-        ],
-        "num_pixels": [
-            25,
-            90
-        ],
-        "density": [
-            0.75,
-            1.5
-        ]
+        "squiggliness": [1.05 2.5],
+        "radius": [2.5 6.0],
+        "num_pixels": [25 90],
+        "density": [0.75 1.5]
     },
     "DoubleAlpha": {
-        "squiggliness": [
-            0.0,
-            65536.0
-        ],
-        "radius": [
-            3.5,
-            9.0
-        ],
-        "num_pixels": [
-            90,
-            120
-        ],
-        "density": [
-            0.0,
-            2.0
-        ]
+        "squiggliness": [0.0 65536.0],
+        "radius": [3.5 9.0],
+        "num_pixels": [90 120],
+        "density": [0.0 2.0]
     }
   }
 }
