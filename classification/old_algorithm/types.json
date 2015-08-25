@@ -10,10 +10,16 @@
   },
   "proton": {
     "proton": {
-      "squiggliness": [0, 1],
+      "squiggliness": [0, 1.7],
       "radius": [20, 80],
-      "num_pixels": [50, 300],
+      "num_pixels": [50, 1000],
       "density": [0.0, 0.05]
+    },
+    "BlobWithTail": {
+        "squiggliness": [0.9, 65536.0],
+        "radius": [0.0, 20.0],
+        "num_pixels": [11, 49],
+        "density": [0.0, 0.75]
     }
   },
   "beta": {
@@ -53,11 +59,11 @@
         "num_pixels": [11, 49],
         "density": [0.35, 1.01]
     },
-    "BlobWithTail": {
-        "squiggliness": [0.9, 65536.0],
-        "radius": [0.0, 20.0],
-        "num_pixels": [11, 49],
-        "density": [0.0, 0.75]
+    "LargeBeta": {
+      "squiggliness": [0.0, 65536.0],
+      "radius": [10.0, 70.0],
+      "num_pixels": [50.0, 1000.0],
+      "density": [0.0, 1000.0]
     }
   },
   "gamma": {
