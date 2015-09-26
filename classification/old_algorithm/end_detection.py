@@ -3,6 +3,9 @@
 
 import numpy as np
 
+def is_single_track(blob):
+    return find_end_points(blob) <= 2
+
 def find_end_points(blob):
     cluster, best_fit_line, radius, centroid = blob.pixels, blob.best_fit_line, blob.radius, blob.centroid
     m, c = best_fit_line
@@ -68,15 +71,16 @@ def find_end_points(blob):
                         neighbours += 1
             if neighbours == 1:
                 num_end_points += 1
+    #import pprint; pprint.pprint(all_pixel_clusters)
     return num_end_points
 
-def pixels_adjacent(pixel1, pixel2):
-    return abs(pixel2[0] - pixel1[0]) <= 1 and abs(pixel2[1] - pixel1[1]) <= 1
+def pixels_adjacent(pixel1, pixel2, distance = 1):
+    return abs(pixel2[0] - pixel1[0]) <= distance and abs(pixel2[1] - pixel1[1]) <= distance
 
 def clusters_adjacent(cluster1, cluster2):
     for p1 in cluster1:
         for p2 in cluster2:
-            if pixels_adjacent(p1, p2):
+            if pixels_adjacent(p1, p2, 2): # Hack as sometimes Bresenham lines will miss a pixel
                 return True
     return False
 
