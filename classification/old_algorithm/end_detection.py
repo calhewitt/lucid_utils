@@ -1,18 +1,20 @@
 # An algorithm to work out the number of end points of a 'long' cluster (beta, etc) in order to detect crossed or divergent tracks
+# Note: This is currently only accurate for clusters of radius > ~20
+# TODO Develop a similar algorithm for shorter blobs
 # Author: Cal Hewitt
 
 import numpy as np
 
 def is_single_track(blob):
-    return find_end_points(blob) <= 2
+    return num_end_points(blob) <= 2
 
-def find_end_points(blob):
+def num_end_points(blob):
     cluster, best_fit_line, radius, centroid = blob.pixels, blob.best_fit_line, blob.radius, blob.centroid
     m, c = best_fit_line
     radius = int(np.ceil(radius)) # Make radius into an integer, bigger is better for avoiding errors
     # Define constants and initialise arrays which we will use a lot later
     pixel_ch_x = 1 / np.sqrt( (m**2) + 1) # For efficiency, change in x between sample points
-    m_normal = (-1)*(1/m) # Gradient of the normal
+    m_normal = (-1)*(1/m) # Gradient of the normal to the line of best fit
     all_pixel_clusters = []
     num_end_points = 0
     # To begin the process, we are going to step along line of best fit from c - r to c + r, 1 pixel at a time
@@ -71,7 +73,6 @@ def find_end_points(blob):
                         neighbours += 1
             if neighbours == 1:
                 num_end_points += 1
-    #import pprint; pprint.pprint(all_pixel_clusters)
     return num_end_points
 
 def pixels_adjacent(pixel1, pixel2, distance = 1):
@@ -86,36 +87,23 @@ def clusters_adjacent(cluster1, cluster2):
 
 # An implementation of Bresenham's line algorithm, thanks to roguebasin.com
 def bresenham(start, end):
-    # Setup initial conditions
     x1, y1 = start
     x2, y2 = end
     dx = x2 - x1
     dy = y2 - y1
-
-    # Determine how steep the line is
     is_steep = abs(dy) > abs(dx)
-
-    # Rotate line
     if is_steep:
         x1, y1 = y1, x1
         x2, y2 = y2, x2
-
-    # Swap start and end points if necessary and store swap state
     swapped = False
     if x1 > x2:
         x1, x2 = x2, x1
         y1, y2 = y2, y1
         swapped = True
-
-    # Recalculate differentials
     dx = x2 - x1
     dy = y2 - y1
-
-    # Calculate error
     error = int(dx / 2.0)
     ystep = 1 if y1 < y2 else -1
-
-    # Iterate over bounding box generating points between start and end
     y = y1
     points = []
     for x in range(x1, x2 + 1):
@@ -125,8 +113,6 @@ def bresenham(start, end):
         if error < 0:
             y += ystep
             error += dx
-
-    # Reverse the list if the coordinates were swapped
     if swapped:
         points.reverse()
     return points
