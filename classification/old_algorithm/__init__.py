@@ -7,10 +7,10 @@ import numpy as np
 from scipy.optimize import leastsq
 import json
 import os
-
+from collections import OrderedDict
 
 # Load up the types file
-types = json.loads(open(os.path.dirname(os.path.realpath(__file__)) + "/types.json").read())
+types = json.JSONDecoder(object_pairs_hook=OrderedDict).decode(open(os.path.dirname(os.path.realpath(__file__)) + "/types.json").read())
 # A list of bounds of properties of various particle types, adapted from http://github.com/cernatschool/cluster-sorter
 
 
@@ -123,3 +123,10 @@ def classify_multiple(blobs):
     for blob in blobs:
         classifications.append(classify(blob))
     return classifications
+
+def classify_masked(blob):
+    # Method for early LUCID data where half of pixels are masked:
+    b = Blob(blob)
+    b.num_pixels *= 2
+    b.density *= 2
+    return b.classify()
