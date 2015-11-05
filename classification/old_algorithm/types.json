@@ -12,7 +12,7 @@
     "proton": {
       "squiggliness": [0, 1.7],
       "radius": [20, 80],
-      "num_pixels": [50, 1000],
+      "num_pixels": [40, 1000],
       "density": [0.0, 0.05]
     },
     "BlobWithTail": {
