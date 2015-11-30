@@ -62,7 +62,7 @@ from lucid_utils.classification.old_algorithm import classify
 
 print "Fetching data..."
 # Here, run refers to the start date of the 2 day slot, and id the unique identification number given to each specific data file
-frames = data_api.get_frames({'run': "2015-07-07", 'id': 537403456})
+frames = data_api.get_frames(537403456)
 
 print "Analysing particle tracks"
 counts = {'alpha': 0, 'beta': 0, 'gamma': 0, 'other': 0}
