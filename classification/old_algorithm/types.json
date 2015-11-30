@@ -14,16 +14,16 @@
       "radius": [20, 80],
       "num_pixels": [40, 1000],
       "density": [0.0, 0.05]
-    },
-    "BlobWithTail": {
-        "squiggliness": [0.9, 65536.0],
-        "radius": [0.0, 20.0],
-        "num_pixels": [11, 49],
-        "density": [0.0, 0.75]
     }
   },
   "beta": {
     "CurlyBeta": {
+        "squiggliness": [0.9, 65536.0],
+        "radius": [0.0, 20.0],
+        "num_pixels": [11, 49],
+        "density": [0.0, 0.75]
+    },
+    "BlobWithTail": {
         "squiggliness": [0.9, 65536.0],
         "radius": [0.0, 20.0],
         "num_pixels": [11, 49],
