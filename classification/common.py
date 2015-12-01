@@ -90,5 +90,7 @@ class Blob:
         blank_frame = np.zeros((256,256))
         for pixel in self.pixels:
             blank_frame[pixel[0]][pixel[1]] = 256
-        print blank_frame
-        Image.fromarray(blank_frame).resize((512,512)).show()
+        B = np.argwhere(blank_frame)
+        (ystart, xstart), (ystop, xstop) = B.min(0), B.max(0) + 1
+        blank_frame = blank_frame[ystart:ystop, xstart:xstop]
+        Image.fromarray(blank_frame).resize((blank_frame.shape[1]*50, blank_frame.shape[0]*50)).show()
