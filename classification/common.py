@@ -6,6 +6,7 @@ from scipy.optimize import leastsq
 import json
 import os
 from collections import OrderedDict
+import Image
 
 
 def distance(point1, point2):
@@ -83,3 +84,11 @@ class Blob:
         else:
             # Divide the number of pixels in the blob by this
             return self.num_pixels / circle_area
+
+    def plot(self):
+        # Plot and show an image of a blob
+        blank_frame = np.zeros((256,256))
+        for pixel in self.pixels:
+            blank_frame[pixel[0]][pixel[1]] = 256
+        print blank_frame
+        Image.fromarray(blank_frame).resize((512,512)).show()
