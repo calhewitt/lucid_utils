@@ -21,8 +21,6 @@ class Blob(common.Blob):
             return 'gamma'
         if (self.density > 0.75 and self.num_pixels > 7) or (self.radius < 9 and self.num_pixels > 90):
             return 'alpha'
-        if self.num_pixels > 9 and self.num_pixels / (self.radius*2) > 2:
-            return 'alpha'
         # Must be beta, proton, muon or other.
         # We've narrowed it down to one of the long, straight ones - result, eh?
         # Aren't we clever?
@@ -68,15 +66,9 @@ def classify(blob, mode="MODE_LUCID"):
     b = Blob(blob)
     return b.classify(mode)
 
-def classify_multiple(blobs):
-    classifications = []
-    for blob in blobs:
-        classifications.append(classify(blob))
-    return classifications
-
-def classify_masked(blob):
+def classify_masked(blob, mode="MODE_LUCID"):
     # Method for early LUCID data where half of pixels are masked:
     b = Blob(blob)
     b.num_pixels *= 2
     b.density *= 2
-    return b.classify()
+    return b.classify(mode)
