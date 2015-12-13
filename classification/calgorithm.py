@@ -1,3 +1,4 @@
+# IMPORTANT: Very much in beta, do not use yet!!
 # AUTHOR: Cal Hewitt
 # An alternative analysis strategy based on the same metrics (calculated in common.py) as earlier algorithms
 # A 'mode' can be specified as an argument to the classify function - this can either be
