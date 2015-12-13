@@ -1,21 +1,5 @@
 
 {
-  "muon": {
-    "muon": {
-      "squiggliness": [0.0, 2],
-      "radius": [80, 182],
-      "num_pixels": [200, 2000],
-      "density": [0.0, 0.02]
-    }
-  },
-  "proton": {
-    "proton": {
-      "squiggliness": [0, 1.7],
-      "radius": [20, 80],
-      "num_pixels": [40, 1000],
-      "density": [0.0, 0.05]
-    }
-  },
   "beta": {
     "CurlyBeta": {
         "squiggliness": [0.9, 65536.0],
