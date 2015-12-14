@@ -6,7 +6,7 @@ from scipy.optimize import leastsq
 import json
 import os
 from collections import OrderedDict
-import Image
+import PIL.Image
 
 
 def distance(point1, point2):
@@ -86,11 +86,11 @@ class Blob:
             return self.num_pixels / circle_area
 
     def plot(self):
-        # Plot and show an image of a blob
+        # Plot and show an PIL.Image of a blob
         blank_frame = np.zeros((256,256))
         for pixel in self.pixels:
             blank_frame[pixel[0]][pixel[1]] = 256
         B = np.argwhere(blank_frame)
         (ystart, xstart), (ystop, xstop) = B.min(0), B.max(0) + 1
         blank_frame = blank_frame[ystart:ystop, xstart:xstop]
-        Image.fromarray(blank_frame).resize((blank_frame.shape[1]*50, blank_frame.shape[0]*50)).show()
+        PIL.Image.fromarray(blank_frame).resize((blank_frame.shape[1]*50, blank_frame.shape[0]*50)).show()

@@ -1,4 +1,4 @@
-import Image
+from PIL import Image
 import numpy as np
 
 # Functions to plot LUCID frames
