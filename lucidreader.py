@@ -4,7 +4,7 @@ import os
 from binascii import hexlify
 import numpy as np 
 from datetime import datetime
-from PIL import Image
+import Image
 
 def tohex(binary):
 	if not binary:

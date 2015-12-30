@@ -1,6 +1,6 @@
 import ephem
 import datetime
-from PIL import Image, ImageDraw
+import Image, ImageDraw
 import os
 
 class lucid_telemetry:

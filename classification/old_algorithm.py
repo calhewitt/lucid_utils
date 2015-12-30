@@ -11,7 +11,7 @@ from collections import OrderedDict
 import common
 
 # Load up the types file
-types = json.loads(os.path.realpath(__file__)) + "/types/old_algorithm.json").read())
+types = json.loads(open(os.path.dirname(os.path.realpath(__file__)) + "/types/old_algorithm.json").read())
 # A list of bounds of properties of various particle types, adapted from http://github.com/cernatschool/cluster-sorter
 
 # Stores and calculates the attributes of a single cluster ('blob') of pixels

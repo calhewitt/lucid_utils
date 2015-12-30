@@ -1,6 +1,6 @@
 from lucidreader import LucidFile
 from frameplot import get_image
-from PIL import Image
+import Image
 import numpy as np
 
 
