@@ -35,8 +35,10 @@ class Blob:
             raise Exception("Cannot work on a blank cluster!")
         # Calculate attributes
         self.radius, self.centroid = self.calculate_radius()
-        self.squiggliness, self.best_fit_line = self.calculate_squiggliness()
+        self.squiggliness, self.minor_radius, self.best_fit_line = self.calculate_squiggliness()
         self.density = self.calculate_density()
+        # An alternative definition of squiggliness; minor radius divided by average with along LoBF
+        self.alt_squiggliness = self.minor_radius / (self.num_pixels / (2*self.radius)) if self.minor_radius > 0 else 0
 
     def calculate_radius(self):
         # Firstly, compute the centroid of the blob
@@ -62,7 +64,7 @@ class Blob:
         # Check if the blob is a straight line, so x_vals OR y_vals is made up of only one repeated element
         if x_vals.count(x_vals[0]) == len(x_vals) or y_vals.count(y_vals[0]) == len(y_vals):
             # Return a 0 squiggliness, as the blob is only one pixel, and a horizontal line as a best fit
-            return 0, (0, 0)
+            return 0, 0, (0, 0)
         # Otherwise, use leastsq to estimate a line of best fit
         # As an initial guess, use a horizontal line passing through the first pixel
         first_guess_line = [0, y_vals[0]] # In the form [gradient, intercept]
@@ -71,7 +73,7 @@ class Blob:
         # Find the mean distance from each pixel to the line (the 'squiggliness')
         distances = [point_line_distance(pixel, best_fit_line) for pixel in self.pixels]
         # Return both a squiggliness value and the parameters of the linear LoBF
-        return np.mean(distances), best_fit_line
+        return np.mean(distances), np.max(distances), best_fit_line
 
     def calculate_density(self):
         # Calculate the fill by hit pixels of a circle of the blob's radius around the centroid]
