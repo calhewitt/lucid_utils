@@ -9,7 +9,6 @@
 # TODO develop separate modes for lower 'agression' settings
 
 import common
-import end_detection
 
 class Blob(common.Blob):
     def classify(self, mode):
@@ -26,7 +25,7 @@ class Blob(common.Blob):
         if self.num_pixels < 6 or self.radius < 2:
             return 'beta'
         # Whoop whoop!
-        if (self.squiggliness / self.radius) < 0.1 and self.radius > 20 and mode == "MODE_LUCID":
+        if (self.squiggliness / self.radius) < 0.1 and self.radius > 40 and mode == "MODE_LUCID":
             # Straight clusters over a certain radius will always be caused by a muon
             return 'muon'
             # Knock Knock
