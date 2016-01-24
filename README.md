@@ -10,12 +10,13 @@ A Python library containing tools for accessing, parsing, analysing and interpre
 * SciPy
 * PyEphem
 * PIL
+* GeoPy (for background count predictions)
 
 Or,
 
 ```shell
 $ sudo apt-get install python-numpy python-scipy python-imaging
-$ sudo pip install PyEphem
+$ sudo pip install pyephem geopy
 ```
 
 
