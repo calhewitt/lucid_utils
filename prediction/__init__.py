@@ -1,5 +1,4 @@
 # Predict the background radiation level at a certain location
-# TODO conversion factor
 
 import numpy as np
 import Image
@@ -9,7 +8,7 @@ import geopy.distance
 import os
 
 # Predicts the (electon, proton) count per frame per second under NORMAL conditions in the given location
-def predict_background((latitude, longitude)):
+def predict_background((lookup_lat, lookup_lng)):
     predicted_counts = {}
     for t in ["beta", "proton"]:
         counts = []
@@ -23,7 +22,11 @@ def predict_background((latitude, longitude)):
         		latitude, longitude, beta, num_frames = float(latitude), float(longitude), int(beta), float(int(num_frames))
                 counts.append((latitude, longitude, beta/num_frames))
 
-        counts_sorted_distance = sorted(counts, key=lambda count:geopy.distance.great_circle((latitude, longitude), (count[0], count[1])))
-        predicted_counts[t] = np.mean([c[2] for c in counts_sorted_distance[:3]])
+        counts_sorted_distance = sorted(counts, key=lambda count:geopy.distance.great_circle((lookup_lat, lookup_lng), (count[0], count[1])))
+        count = np.mean([c[2] for c in counts_sorted_distance[:3]])
+        # Convert this number into something more 'scientific'
+        count /= 2.0 # Single detector
+        count /= 0.03 # Per second
+        predicted_counts[t] = count
 
     return(predicted_counts["beta"], predicted_counts["proton"])
