@@ -1,4 +1,5 @@
 # Predict the background radiation level at a certain location
+# Betabetabetabetabetabetabetabetabetabetabetabetabetabeta, so don't rely on this just yet :)
 
 import numpy as np
 import Image
