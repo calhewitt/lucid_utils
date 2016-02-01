@@ -6,7 +6,7 @@ from scipy.optimize import leastsq
 import json
 import os
 from collections import OrderedDict
-import Image
+from PIL import Image
 
 
 def distance(point1, point2):

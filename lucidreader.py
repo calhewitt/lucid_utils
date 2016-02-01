@@ -4,7 +4,7 @@ import os
 from binascii import hexlify
 import numpy as np 
 from datetime import datetime
-import Image
+from PIL import Image
 
 def tohex(binary):
 	if not binary:
@@ -62,15 +62,15 @@ class LucidFile:
 		while True:
 			b1 = b2
 			b2 = self.f.read(1)
-
 			if b2 == "":
 				break
-
+			print tohex(b1) + tohex(b2)
 			if tohex(b1) + tohex(b2) == "DCDF":
 				# Found one...
+				print "found!!"
 				self.frame_markers.append(pointer)
 			pointer += 1
-
+		print "yay"
 		self.num_frames	= len(self.frame_markers) - 1
 		self.frame_markers.pop(self.num_frames) # Last frame is usually incomplete, so remove it
 

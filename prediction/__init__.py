@@ -2,7 +2,7 @@
 # Betabetabetabetabetabetabetabetabetabetabetabetabetabeta, so don't rely on this just yet :)
 
 import numpy as np
-import Image
+from PIL import Image
 import sys
 from scipy import interpolate
 import geopy.distance
