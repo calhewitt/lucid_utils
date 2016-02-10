@@ -29,7 +29,7 @@ $ git clone https://github.com/calhewitt/lucid-utils
 and copy or link it to your Python libraries folder, for example:
 
 ```shell
-$ cp lucid-utils /usr/lib/python2.7/lucid_utils
+$ cp -r lucid-utils /usr/lib/python2.7/lucid_utils
 ```
 
 (Note the underscore in the directory name, as Python cannot import module names containing a hyphen)
