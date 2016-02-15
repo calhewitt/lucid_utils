@@ -17,8 +17,13 @@ def bernard_dump(table_name):
     # Get a dump of a table from Bernard's output database
     # Format of [row1, row2...]
     # Column names not supplies
-    pass
+    # Get a list of available tables to download
+    stream = urllib.urlopen(BASE_PATH + "bernard_dump?table=" + table_name)
+    if not stream.getcode() == 200:
+    	raise Exception("An error occurred whilst processing the request")
+    data = json.loads(stream.read())
+    return data
 
 def bernard_schema(table_name):
-    #TODO implement this!
+    #TODO implement this (server side as well)!
     pass
