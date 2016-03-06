@@ -7,7 +7,7 @@ import json
 import os
 from collections import OrderedDict
 from PIL import Image
-
+import least_squares_circle
 
 def distance(point1, point2):
     # Simple 2D distance function using Pythagoras:
@@ -34,46 +34,33 @@ class Blob:
         if not self.num_pixels:
             raise Exception("Cannot work on a blank cluster!")
         # Calculate attributes
-        self.radius, self.centroid = self.calculate_radius()
-        self.squiggliness, self.minor_radius, self.best_fit_line = self.calculate_squiggliness()
+        self.centroid = self.find_centroid()
+        self.radius = self.calculate_radius()
         self.density = self.calculate_density()
-        # An alternative definition of squiggliness; minor radius divided by average with along LoBF
-        self.alt_squiggliness = self.minor_radius / (self.num_pixels / (2*self.radius)) if self.minor_radius > 0 else 0
+        self.best_fit_line = self.find_best_fit_line()
+        self.squiggliness, self.line_residual, self.minor_radius = self.calculate_squiggliness() # The 'old' definition (from Whyntie et al.)
+        self.best_fit_circle = self.find_best_fit_circle() # x, y, radius, residuals
+        self.linearity = self.best_fit_circle[2]
+        self.circle_residual = self.best_fit_circle[3]
+        self.width = self.num_pixels / (2 * self.radius) if not self.num_pixels == 1 else 0
 
-    def calculate_radius(self):
+    def find_centroid(self):
         # Firstly, compute the centroid of the blob
         x_vals, y_vals = [], []
         for pixel in self.pixels:
             x_vals.append(pixel[0])
             y_vals.append(pixel[1])
         centroid = (np.mean(x_vals), np.mean(y_vals))
+        return centroid
+
+    def calculate_radius(self):
         # Loop through each pixel and check its distance from the centroid; set the radius to the highest of these
         radius = 0.0
         for pixel in self.pixels:
-            dist = distance(centroid, pixel)
+            dist = distance(self.centroid, pixel)
             if dist > radius:
                 radius = dist
-        return radius, centroid
-
-    def calculate_squiggliness(self):
-        # Split up into x and y value lists
-        x_vals, y_vals = [], []
-        for pixel in self.pixels:
-            x_vals.append(pixel[0])
-            y_vals.append(pixel[1])
-        # Check if the blob is a straight line, so x_vals OR y_vals is made up of only one repeated element
-        if x_vals.count(x_vals[0]) == len(x_vals) or y_vals.count(y_vals[0]) == len(y_vals):
-            # Return a 0 squiggliness, as the blob is only one pixel, and a horizontal line as a best fit
-            return 0, 0, (0, 0)
-        # Otherwise, use leastsq to estimate a line of best fit
-        # As an initial guess, use a horizontal line passing through the first pixel
-        first_guess_line = [0, y_vals[0]] # In the form [gradient, intercept]
-        # Use scipy's regression function to magic this into a good LoBF
-        best_fit_line = leastsq(residuals, first_guess_line, args = (np.array(y_vals), np.array(x_vals)))[0]
-        # Find the mean distance from each pixel to the line (the 'squiggliness')
-        distances = [point_line_distance(pixel, best_fit_line) for pixel in self.pixels]
-        # Return both a squiggliness value and the parameters of the linear LoBF
-        return np.mean(distances), np.max(distances), best_fit_line
+        return radius
 
     def calculate_density(self):
         # Calculate the fill by hit pixels of a circle of the blob's radius around the centroid]
@@ -86,6 +73,41 @@ class Blob:
         else:
             # Divide the number of pixels in the blob by this
             return self.num_pixels / circle_area
+
+    def find_best_fit_line(self):
+        # Split up into x and y value lists
+        x_vals, y_vals = [], []
+        for pixel in self.pixels:
+            x_vals.append(pixel[0])
+            y_vals.append(pixel[1])
+        # Check if the blob is a straight line, so x_vals OR y_vals is made up of only one repeated element
+        if x_vals.count(x_vals[0]) == len(x_vals) or y_vals.count(y_vals[0]) == len(y_vals):
+            # Return a 0 squiggliness, as the blob is only one pixel, and a horizontal line as a best fit
+            return (0, 0)
+        # Otherwise, use leastsq to estimate a line of best fit
+        # As an initial guess, use a horizontal line passing through the first pixel
+        first_guess_line = [0, y_vals[0]] # In the form [gradient, intercept]
+        # Use scipy's regression function to magic this into a good LoBF
+        best_fit_line = leastsq(residuals, first_guess_line, args = (np.array(y_vals), np.array(x_vals)))[0]
+        return best_fit_line
+
+    def calculate_squiggliness(self):
+        # Find the mean distance from each pixel to the line (the 'squiggliness')
+        distances = [point_line_distance(pixel, self.best_fit_line) for pixel in self.pixels]
+        # Return both a squiggliness value and the parameters of the linear LoBF
+        return np.mean(distances), np.sum([d**2 for d in distances]), np.max(distances)
+
+    def find_best_fit_circle(self):
+        if self.num_pixels == 1:
+            return 0,0,0,0
+        # Circle regression will break if only one pixel is given
+        if self.num_pixels == 0:
+            return 0 # We love special cases
+        x_vals, y_vals = [], []
+        for pixel in self.pixels:
+            x_vals.append(pixel[0])
+            y_vals.append(pixel[1])
+        return tuple(least_squares_circle.leastsq_circle(x_vals, y_vals))
 
     def plot(self):
         # Plot and show an image of a blob

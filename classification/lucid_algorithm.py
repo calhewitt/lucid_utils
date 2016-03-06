@@ -18,12 +18,8 @@ class Blob(common.Blob):
         if self.num_pixels < 4:
             return 'gamma'
         # Large clusters with such a high density, or smaller ones with even higher densities are always alpha
-        if (self.density > 0.75 and self.num_pixels > 7) or (self.radius < 9 and self.num_pixels > 90):
+        if (self.density > 0.75 and self.num_pixels > 11):
             return 'alpha'
-        # By this stage, must be beta, proton, muon or other.
-        # Very small clusters will always be electron hits
-        if self.num_pixels < 6 or self.radius < 2:
-            return 'beta'
         # Whoop whoop!
         if (self.squiggliness / self.radius) < 0.1 and self.radius > 40 and mode == "MODE_LUCID":
             # Straight clusters over a certain radius will always be caused by a muon
@@ -33,20 +29,16 @@ class Blob(common.Blob):
             # Interrupting physicist.
             # Interrupting physicist wh--
             # MUUUUUUUUON
-        # Otherwise, if the cluster is nearly completly straight it is probably a proton
-        if self.radius > 7 and self.squiggliness < 0.4 and mode == "MODE_LUCID":
+        if self.linearity > 50 and self.width > 1.5:
             return 'proton'
-        # Shorter proton tracks can be distinguished from straight betas on their 'chunkiness'; the average width of the track
-        if self.num_pixels / (2*self.radius) > 1.5 and self.squiggliness < 0.7 and mode == "MODE_LUCID":
+        elif self.linearity > 100:
             return 'proton'
-        if self.radius < 10 or mode == "MODE_CERNATSCHOOL":
-            # If classifying aggressively, the only remaining possibility is a beta particle
-            return 'beta'
-        # TODO an end detection check here - algorithm too slow at the moment for general use, so cheating
-        # Want to be able to distinguish boring betas from interesting events or interactions
-        return 'beta'
-        # More coming soon!
-
+        else:
+            # Deal with very bad circle fits...
+            if self.line_residual < self.circle_residual:
+                return 'proton'
+            else:
+                return 'beta'
 
 def classify(blob, mode="MODE_LUCID"):
     # A quick wrapper method for ease of use
