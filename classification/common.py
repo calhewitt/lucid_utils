@@ -14,16 +14,12 @@ def distance(point1, point2):
     # Calculates the distance between point1 (x, y) and point2 (x, y)
     return np.sqrt(((point2[0] - point1[0])**2) + ((point2[1] - point1[1])**2))
 
-def point_line_distance(point, line):
-    # Calculates the shortest distance between a point (x, y) and a line (m, c) where y = mx + c
-    x, y = point
-    m, c = line
-    return np.fabs(m * x - y + c) / np.sqrt(1 + m**2)
-
-def residuals(line, y, x):
-    # Wrapper for point_line_distance in the format required by scipy's regression function
-    return point_line_distance((x, y), line)
-
+def point_line_distance(point, centroid, theta):
+    x1, y1 = centroid
+    x2, y2 = (centroid[0] + np.cos(theta), centroid[1] + np.sin(theta))
+    x0, y0 = point
+    # cheers wikipedia
+    return np.fabs( (y2-y1)*x0 - (x2-x1)*y0 + x2*y1 - y2*x1 ) / np.sqrt( (y2-y1)**2 + (x2-x1)**2 )
 
 # Stores and calculates the attributes of a single cluster ('blob') of pixels
 class Blob:
@@ -37,8 +33,7 @@ class Blob:
         self.centroid = self.find_centroid()
         self.radius = self.calculate_radius()
         self.density = self.calculate_density()
-        self.best_fit_line = self.find_best_fit_line()
-        self.squiggliness, self.line_residual, self.minor_radius = self.calculate_squiggliness() # The 'old' definition (from Whyntie et al.)
+        self.squiggliness, self.best_fit_theta = self.calculate_squiggliness()
         self.best_fit_circle = self.find_best_fit_circle() # x, y, radius, residuals
         self.linearity = self.best_fit_circle[2]
         self.circle_residual = self.best_fit_circle[3]
@@ -74,28 +69,24 @@ class Blob:
             # Divide the number of pixels in the blob by this
             return self.num_pixels / circle_area
 
-    def find_best_fit_line(self):
+    def calculate_squiggliness(self):
+        # return angle theta anticlockwise from x axis
         # Split up into x and y value lists
         x_vals, y_vals = [], []
         for pixel in self.pixels:
             x_vals.append(pixel[0])
             y_vals.append(pixel[1])
-        # Check if the blob is a straight line, so x_vals OR y_vals is made up of only one repeated element
-        if x_vals.count(x_vals[0]) == len(x_vals) or y_vals.count(y_vals[0]) == len(y_vals):
-            # Return a 0 squiggliness, as the blob is only one pixel, and a horizontal line as a best fit
-            return (0, 0)
         # Otherwise, use leastsq to estimate a line of best fit
-        # As an initial guess, use a horizontal line passing through the first pixel
-        first_guess_line = [0, y_vals[0]] # In the form [gradient, intercept]
+        # x axis as inital guess
+        first_guess_theta = 0.1
         # Use scipy's regression function to magic this into a good LoBF
-        best_fit_line = leastsq(residuals, first_guess_line, args = (np.array(y_vals), np.array(x_vals)))[0]
-        return best_fit_line
+        best_fit_theta = leastsq(self.residuals, first_guess_theta, args = (np.array(y_vals), np.array(x_vals)))[0] % (np.pi)
+        #print np.degrees(best_fit_theta)
+        squiggliness = np.sum([point_line_distance(p, self.centroid, best_fit_theta)**2 for p in self.pixels])
+        return squiggliness, np.degrees(best_fit_theta)[0]
 
-    def calculate_squiggliness(self):
-        # Find the mean distance from each pixel to the line (the 'squiggliness')
-        distances = [point_line_distance(pixel, self.best_fit_line) for pixel in self.pixels]
-        # Return both a squiggliness value and the parameters of the linear LoBF
-        return np.mean(distances), np.sum([d**2 for d in distances]), np.max(distances)
+    def residuals(self, theta, y, x):
+        return point_line_distance((x,y), self.centroid, theta)
 
     def find_best_fit_circle(self):
         if self.num_pixels == 1:
@@ -113,7 +104,7 @@ class Blob:
         # Plot and show an image of a blob
         blank_frame = np.zeros((256,256))
         for pixel in self.pixels:
-            blank_frame[pixel[0]][pixel[1]] = 256
+            blank_frame[pixel[1]][pixel[0]] = 256
         B = np.argwhere(blank_frame)
         (ystart, xstart), (ystop, xstop) = B.min(0), B.max(0) + 1
         blank_frame = blank_frame[ystart:ystop, xstart:xstop]

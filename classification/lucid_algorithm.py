@@ -29,16 +29,11 @@ class Blob(common.Blob):
             # Interrupting physicist.
             # Interrupting physicist wh--
             # MUUUUUUUUON
-        if self.linearity > 50 and self.width > 1.5:
+        if (self.linearity > 50 or self.squiggliness < self.circle_residual) and self.width > 1.5:
             return 'proton'
-        elif self.linearity > 100:
-            return 'proton'
+
         else:
-            # Deal with very bad circle fits...
-            if self.line_residual < self.circle_residual:
-                return 'proton'
-            else:
-                return 'beta'
+            return 'beta'
 
 def classify(blob, mode="MODE_LUCID"):
     # A quick wrapper method for ease of use
@@ -50,4 +45,5 @@ def classify_masked(blob, mode="MODE_LUCID"):
     b = Blob(blob)
     b.num_pixels *= 2
     b.density *= 2
+    b.width *= 2
     return b.classify(mode)
