@@ -112,4 +112,4 @@ class Blob:
         B = np.argwhere(blank_frame)
         (ystart, xstart), (ystop, xstop) = B.min(0), B.max(0) + 1
         blank_frame = blank_frame[ystart:ystop, xstart:xstop]
-        Image.fromarray(blank_frame).resize((blank_frame.shape[1]*50, blank_frame.shape[0]*50)).show()
+        Image.fromarray(blank_frame).resize((blank_frame.shape[1]*50, blank_frame.shape[0]*50)).transpose(Image.FLIP_TOP_BOTTOM).show()
