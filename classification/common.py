@@ -3,9 +3,7 @@
 
 import numpy as np
 from scipy.optimize import leastsq
-import json
 import os
-from collections import OrderedDict
 from PIL import Image
 import least_squares_circle
 
@@ -32,11 +30,13 @@ class Blob:
         # Calculate attributes
         self.centroid = self.find_centroid()
         self.radius = self.calculate_radius()
+        self.diameter = 2 * self.radius
         self.density = self.calculate_density()
         self.squiggliness, self.best_fit_theta = self.calculate_squiggliness()
         self.best_fit_circle = self.find_best_fit_circle() # x, y, radius, residuals
-        self.linearity = self.best_fit_circle[2]
+        self.curvature_radius = self.best_fit_circle[2]
         self.circle_residual = self.best_fit_circle[3]
+        self.line_residual = self.squiggliness # For silly people who like words which actually exist
         self.width = self.num_pixels / (2 * self.radius) if not self.num_pixels == 1 else 0
 
     def find_centroid(self):
@@ -70,12 +70,15 @@ class Blob:
             return self.num_pixels / circle_area
 
     def calculate_squiggliness(self):
-        # return angle theta anticlockwise from x axis
+        # return angle theta anticlockwise from x axis, with the line passing through the cluster centroid
         # Split up into x and y value lists
         x_vals, y_vals = [], []
         for pixel in self.pixels:
             x_vals.append(pixel[0])
             y_vals.append(pixel[1])
+        # Special case for single pixel: horizontal line, completely linear!
+        if len(self.pixels) == 1:
+            return (0, 0)
         # Otherwise, use leastsq to estimate a line of best fit
         # x axis as inital guess
         first_guess_theta = 0.1
@@ -85,6 +88,7 @@ class Blob:
         squiggliness = np.sum([point_line_distance(p, self.centroid, best_fit_theta)**2 for p in self.pixels])
         return squiggliness, np.degrees(best_fit_theta)[0]
 
+    # For the regression in squiggliness calculations...
     def residuals(self, theta, y, x):
         return point_line_distance((x,y), self.centroid, theta)
 

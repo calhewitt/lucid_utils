@@ -17,11 +17,9 @@ class Blob(common.Blob):
         # Start by eliminating a few trivial cases - if a blob has fewer than 4 pixels, then it must be a gamma (or there is no way of telling otherwise)
         if self.num_pixels < 4:
             return 'gamma'
-        # Large clusters with such a high density, or smaller ones with even higher densities are always alpha
         if (self.density > 0.75 and self.num_pixels > 11):
             return 'alpha'
-        # Whoop whoop!
-        if (self.squiggliness / self.radius) < 0.1 and self.radius > 40 and mode == "MODE_LUCID":
+        if (self.line_residual / self.radius) < 0.1 and self.radius > 40 and mode == "MODE_LUCID":
             # Straight clusters over a certain radius will always be caused by a muon
             return 'muon'
             # Knock Knock
@@ -29,9 +27,8 @@ class Blob(common.Blob):
             # Interrupting physicist.
             # Interrupting physicist wh--
             # MUUUUUUUUON
-        if (self.linearity > 50 or self.squiggliness < self.circle_residual) and self.width > 1.5:
+        if (self.curvature_radius > 50 or self.line_residual < self.circle_residual) and self.width > 1.5:
             return 'proton'
-
         else:
             return 'beta'
 
