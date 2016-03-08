@@ -108,11 +108,9 @@ class Blob:
         th = np.radians(self.best_fit_theta)
         p1 = (x + d*np.cos(th - (np.pi/2)), y + d*np.sin(th - (np.pi/2)))
         p2 = (x + d*np.cos(th + (np.pi/2)), y + d*np.sin(th + (np.pi/2)))
-        print p1, p2
         test_circles = [least_squares_circle.leastsq_circle(x_vals, y_vals, test_point) for test_point in [self.centroid, p1, p2]]
         # circle[3] is being minimised
         test_circles.sort(key = lambda circle: circle[3])
-        print test_circles
         return test_circles[0]
 
     def plot(self):
