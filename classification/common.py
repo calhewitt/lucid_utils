@@ -96,13 +96,24 @@ class Blob:
         if self.num_pixels == 1:
             return 0,0,0,0
         # Circle regression will break if only one pixel is given
-        if self.num_pixels == 0:
-            return 0 # We love special cases
+        if self.num_pixels == 1:
+            return 0, 0, 0, 0 # We love special cases
         x_vals, y_vals = [], []
         for pixel in self.pixels:
             x_vals.append(pixel[0])
             y_vals.append(pixel[1])
-        return tuple(least_squares_circle.leastsq_circle(x_vals, y_vals))
+        # The cluster centroid is often a very bad first guess for the circle centre, so try with a couple of others...
+        x, y, = self.centroid
+        d = self.diameter
+        th = np.radians(self.best_fit_theta)
+        p1 = (x + d*np.cos(th - (np.pi/2)), y + d*np.sin(th - (np.pi/2)))
+        p2 = (x + d*np.cos(th + (np.pi/2)), y + d*np.sin(th + (np.pi/2)))
+        print p1, p2
+        test_circles = [least_squares_circle.leastsq_circle(x_vals, y_vals, test_point) for test_point in [self.centroid, p1, p2]]
+        # circle[3] is being minimised
+        test_circles.sort(key = lambda circle: circle[3])
+        print test_circles
+        return test_circles[0]
 
     def plot(self):
         # Plot and show an image of a blob
