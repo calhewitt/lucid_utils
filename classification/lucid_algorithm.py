@@ -40,7 +40,6 @@ def classify(blob, mode="MODE_LUCID"):
 def classify_masked(blob, mode="MODE_LUCID"):
     # Method for early LUCID data where half of pixels are masked:
     b = Blob(blob)
-    b.num_pixels *= 2
     b.density *= 2
     b.width *= 2
     return b.classify(mode)
