@@ -64,10 +64,10 @@ class LucidFile:
 			b2 = self.f.read(1)
 			if b2 == "":
 				break
-			print tohex(b1) + tohex(b2)
+			#print tohex(b1) + tohex(b2)
 			if tohex(b1) + tohex(b2) == "DCDF":
 				# Found one...
-				print "found!!"
+				#print "found!!"
 				self.frame_markers.append(pointer)
 			pointer += 1
 		print "yay"
