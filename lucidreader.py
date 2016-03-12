@@ -1,10 +1,11 @@
 # Module to parse raw LUCID data files
-
+from __future__ import print_function
 import os
 from binascii import hexlify
 import numpy as np 
 from datetime import datetime
 from PIL import Image
+
 
 def tohex(binary):
 	if not binary:
@@ -48,8 +49,8 @@ class LucidFile:
 
 		else:
 			# Workaround for files missing a header
-			print "Warning: The data file is missing a header. It could be invalid."
-			print "Using usual settings..."
+			print("Warning: The data file is missing a header. It could be invalid.")
+			print("Using usual settings...")
 			self.config = "Unknown"
 			self.num_active_detectors = 3
 			self.active_detectors = [True, True, False, True, False]
@@ -70,7 +71,7 @@ class LucidFile:
 				#print "found!!"
 				self.frame_markers.append(pointer)
 			pointer += 1
-		print "yay"
+		print("yay")
 		self.num_frames	= len(self.frame_markers) - 1
 		self.frame_markers.pop(self.num_frames) # Last frame is usually incomplete, so remove it
 
