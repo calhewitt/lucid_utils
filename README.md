@@ -10,12 +10,13 @@ A Python library containing tools for accessing, parsing, analysing and interpre
 * SciPy
 * PyEphem
 * PIL
+* GeoPy (for background count predictions)
 
 Or,
 
 ```shell
 $ sudo apt-get install python-numpy python-scipy python-imaging
-$ sudo pip install PyEphem
+$ sudo pip install pyephem geopy
 ```
 
 
@@ -28,7 +29,7 @@ $ git clone https://github.com/calhewitt/lucid-utils
 and copy or link it to your Python libraries folder, for example:
 
 ```shell
-$ cp lucid-utils /usr/lib/python2.7/lucid_utils
+$ cp -r lucid-utils /usr/lib/python2.7/lucid_utils
 ```
 
 (Note the underscore in the directory name, as Python cannot import module names containing a hyphen)
@@ -62,7 +63,7 @@ from lucid_utils.classification.old_algorithm import classify
 
 print "Fetching data..."
 # Here, run refers to the start date of the 2 day slot, and id the unique identification number given to each specific data file
-frames = data_api.get_frames({'run': "2015-07-07", 'id': 537403456})
+frames = data_api.get_frames(537403456)
 
 print "Analysing particle tracks"
 counts = {'alpha': 0, 'beta': 0, 'gamma': 0, 'other': 0}
