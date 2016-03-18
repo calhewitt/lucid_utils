@@ -100,7 +100,6 @@ class LucidFile:
 				# First 2 bits are always 10 - pixel is only 14 bits long
 				if pixel[0:2] == "10":	
 					pixel = float(int(pixel[2:], 2))
-					pixel = (pixel / 11810) * 256
 					pixels[x][y] = pixel
 					x += 1
 				elif pixel[0:2] == "00":
