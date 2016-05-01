@@ -5,7 +5,7 @@ import numpy as np
 
 def colour_map(bw):
 	if bw == 0:
-		return (0, 0, 40)
+		return (112, 167, 223)
 	r, g, b = 0, 0, 0
 	if bw < 85:
 		r = bw * 3
@@ -16,7 +16,7 @@ def colour_map(bw):
 		r = 255
 		g = 255
 		b = (bw - 170) * 3
-	return (r, g, b)
+	return (int(r), int(g), int(b))
 
 def get_image(pixels, colourmode = "BW"):
 	pilmode = "L"
