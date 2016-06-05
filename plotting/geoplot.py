@@ -19,7 +19,6 @@ def geoplot(latitudes, longitudes, counts):
 
 	xs, ys, zs = [], [], []
 	counts = []
-	data = open(sys.argv[1]).readlines()
 
 	for i in range(len(latitudes)):
 			latitude, longitude, count = latitudes[i], longitudes[i], counts[i]

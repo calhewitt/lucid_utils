@@ -18,7 +18,9 @@ def colour_map(bw):
 		b = (bw - 170) * 3
 	return (int(r), int(g), int(b))
 
-def get_image(pixels, colourmode = "BW"):
+def get_image(pixels, colourmode = "BW", normalise=False):
+	if normalise:
+		pixels *= (11810.0 / max(pixels.flatten()))
 	pilmode = "L"
 	if colourmode == "RGB":
 		pilmode = "RGB"
