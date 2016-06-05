@@ -39,7 +39,11 @@ class Frame:
 	pass
 
 def get_frames(file_id, run = None):
-	stream = urllib.urlopen(BASE_PATH + "get/frames?data_file=" + str(file_id))
+	if run:
+		# support for old servers
+		stream = urllib.urlopen(BASE_PATH + "get/frames?data_file=" + str(file_id) + "&run=" + run)
+	else:
+		stream = urllib.urlopen(BASE_PATH + "get/frames?data_file=" + str(file_id))
 	if not stream.getcode() == 200:
 		raise Exception("That data file could not be found")
 	# .decode required for use in Python 3+
