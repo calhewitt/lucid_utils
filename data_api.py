@@ -38,7 +38,7 @@ def get_runs():
 class Frame:
 	pass
 
-def get_frames(file_id):
+def get_frames(file_id, run = None):
 	stream = urllib.urlopen(BASE_PATH + "get/frames?data_file=" + str(file_id))
 	if not stream.getcode() == 200:
 		raise Exception("That data file could not be found")
