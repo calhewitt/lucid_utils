@@ -73,7 +73,6 @@ class LucidFile:
 			pointer += 1
 		print("yay")
 		self.num_frames	= len(self.frame_markers) - 1
-		self.frame_markers.pop(self.num_frames) # Last frame is usually incomplete, so remove it
 
 
 	def get_frame(self, index):
