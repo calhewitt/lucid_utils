@@ -5,7 +5,10 @@ import numpy as np
 from scipy.optimize import leastsq
 import os
 from PIL import Image
-import least_squares_circle
+try:
+    import least_squares_circle
+except ImportError:
+    from . import least_squares_circle
 
 def distance(point1, point2):
     # Simple 2D distance function using Pythagoras:

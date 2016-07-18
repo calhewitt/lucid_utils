@@ -8,7 +8,10 @@
 # for generating counts for mapping with LUCID data.
 # TODO develop separate modes for lower 'agression' settings
 
-import common
+try:
+    import common
+except ImportError:
+    from . import common
 
 class Blob(common.Blob):
     def classify(self, mode):
