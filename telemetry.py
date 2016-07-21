@@ -49,7 +49,7 @@ def get_map(latitude, longitude):
 	coordinates = {'x': 0, 'y': 0}
 	coordinates['x'] = int(longitude + 180)
 	coordinates['y'] = int(180 - (latitude + 90))
-	
+
 	image = Image.open(os.path.dirname(os.path.realpath(__file__)) + "/img/map.png")
 	# Paint on position
 	draw = ImageDraw.Draw(image)
@@ -63,15 +63,15 @@ def compute_sun_altitude(timestamp):
 	gatech = ephem.Observer()
 	gatech.lon, gatech.lat = str(position.longitude), str(position.latitude)
 	current_datetime = datetime.datetime.fromtimestamp(
-        int(timestamp)
-    ).strftime('%Y/%m/%d %H:%M:%S')
-	gatech.date = current_datetime 
+		int(timestamp)
+	).strftime('%Y/%m/%d %H:%M:%S')
+	gatech.date = current_datetime
 	gatech.pressure = 0
 	gatech.elevation = 635000
 	sun = ephem.Sun()
 	sun.compute(gatech)
- 	
- 	return sun.alt * 57.2957795
+
+	return sun.alt * 57.2957795
 
 # Some definitions...
 sunlight = "SUNLIGHT"
