@@ -8,7 +8,10 @@ from scipy.optimize import leastsq
 import json
 import os
 from collections import OrderedDict
-import common
+try:
+    import common
+except ImportError:
+    from . import common
 
 # Load up the types file
 types = json.loads(open(os.path.dirname(os.path.realpath(__file__)) + "/types/old_algorithm.json").read())
@@ -24,12 +27,12 @@ class Blob(common.Blob):
                         "density": self.density,
                         "squiggliness": self.squiggliness}
         # Loop through each potential particle type, looking for a match
-        for particle_name, subtypes in types.iteritems():
-            for name, properties in subtypes.iteritems():
+        for particle_name, subtypes in types.items():
+            for name, properties in subtypes.items():
                 # Initially, presume the particle is a match
                 match = True
                 # Check through each property, in the form {name: (lower_bound, upper_bound)}
-                for property_name, property_value in properties.iteritems():
+                for property_name, property_value in properties.items():
                     # If the blob's properties lie outside the bounds specified in the types file, the blob is not a match
                     if (blob_values[property_name] < property_value[0]) or (blob_values[property_name] > property_value[1]):
                         match = False
