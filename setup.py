@@ -6,16 +6,22 @@ def read(fname):
 
 setup(
     name = "lucid_utils",
-    version = "1.0",
+    version = "1.0.b1",
     author = "Cal Hewitt",
     author_email = "hello@calhewitt.xyz",
     description = ("A library for analysing LUCID data"),
     license = "MIT",
     packages=find_packages(),
-    long_description=read('README.md'),
+    long_description="A library for analysing LUCID data",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
     ],
+    install_requires=[
+          'numpy',
+          'scipy',
+          'pyephem',
+          'pillow'
+      ],
 )

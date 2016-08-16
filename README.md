@@ -2,7 +2,15 @@
 
 A Python library containing tools for accessing, parsing, analysing and interpreting data from the LUCID experiment.
 
-## Installation
+To install (with all dependencies), simply run:
+
+```shell
+$ pip install lucid_utils
+``
+
+Or, for development purposes, the library can be installed manually:
+
+## Manual Install
 
 ### Requirements
 
