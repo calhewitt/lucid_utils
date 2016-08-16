@@ -6,7 +6,7 @@ To install (with all dependencies), simply run:
 
 ```shell
 $ pip install lucid_utils
-``
+```
 
 Or, for development purposes, the library can be installed manually:
 
