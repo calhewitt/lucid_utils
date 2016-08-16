@@ -1,10 +1,16 @@
 import numpy as np
 import math
-import Image
+try:
+	import Image
+except ImportError:
+	from PIL import Image as Image
 import sys
 from scipy import interpolate
 import geopy.distance
-from pylab import figure, cm
+try:
+	from pylab import figure, cm
+except ImportError:
+	from matplotlib.pylab import figure, cm
 from matplotlib import pyplot as plt
 from matplotlib.colors import LogNorm
 
@@ -44,3 +50,6 @@ def geoplot(latitudes, longitudes, counts):
 	themap = themap[10:170]
 	plt.imshow(themap)
 	plt.show()
+
+
+
