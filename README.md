@@ -5,7 +5,13 @@ A Python library containing tools for accessing, parsing, analysing and interpre
 To install (with all dependencies), simply run:
 
 ```shell
-$ pip install lucid_utils
+# pip install lucid_utils
+```
+
+Sometimes, the installation via pip of NumPy and SciPy, which the library requires, can cause errors. If this is the case, install them separately first using apt:
+
+```
+# apt install python-numpy python scipy
 ```
 
 Or, for development purposes, the library can be installed manually:
