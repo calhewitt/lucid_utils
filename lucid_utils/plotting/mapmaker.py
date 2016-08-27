@@ -31,7 +31,7 @@ def cartesian(lat, lng):
 def lookup(lat,lng):
     print lat
     x,y,z = cartesian(lat,lng)
-    dists, indices = tree.query((x,y,z), 200)
+    dists, indices = tree.query((x,y,z), 5)
     return np.average([datapoints[index][3] for index in indices], weights=[distfunc(dist) for dist in dists])
 
 data = open("counts.txt").readlines()
