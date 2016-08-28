@@ -3,14 +3,15 @@
 import numpy as np
 from numpy import sin,cos,tan # For convenience
 import matplotlib.pyplot as plt
-from matplotlib.colors import LogNorm
+from matplotlib.colors import SymLogNorm
 import scipy.spatial
 from matplotlib.colors import LogNorm
+import sys
 from mpl_toolkits.basemap import Basemap
 
 
 def distfunc(dist):
-    return np.exp(dist*(-1))
+    return np.exp(((dist**2)*-100))
 
 def sqdist(p1,p2):
     return ( (p1[0]-p2[0])**2 + (p1[1]-p2[1])**2 + (p1[2]-p2[2])**2 )
@@ -31,9 +32,9 @@ def cartesian(lat, lng):
 def lookup(lat,lng):
     print lat
     x,y,z = cartesian(lat,lng)
-    dists, indices = tree.query((x,y,z), 5)
-    return np.average([datapoints[index][3] for index in indices], weights=[distfunc(dist) for dist in dists])
-
+    dists, indices = tree.query((x,y,z), 100)
+    val = np.average([datapoints[index][3] for index in indices], weights=[distfunc(dist) for dist in dists])
+    return val
 data = open("counts.txt").readlines()
 datapoints = []
 
@@ -51,7 +52,7 @@ tree = scipy.spatial.KDTree([(x,y,z) for x,y,z,e,p in datapoints])
 grid = [[lookup(lat,lng) for lng in range(-180,180)] for lat in range(-90,90)]
 
 m = Basemap(projection='cyl')
-m.imshow(grid,norm=LogNorm())
+m.imshow(grid,norm=SymLogNorm(linthresh=1.5))
 m.drawcoastlines()
 
 parallels = np.arange(-60,90,30)

@@ -34,8 +34,6 @@ for run in runs:
     print "RUN STARTING", run
     files += data_api.get_data_files(run)
 
-print files[269:271]
-files = files[265:]
 
 for df in files:
     print "ANALYSING FILE", count
@@ -43,18 +41,15 @@ for df in files:
     count += 1
 
     electron, proton = 0,0
-    lat,lng = df['latitude'], df['longitude']
-    num_frames = 1
 
-    url = "http://starserver.thelangton.org.uk/lucid-data-browser/view/get/xyc?run=" + df['run'] + "&file_id=" + df['id'] + "&frame=1&channel=0"
-    lines = urllib.urlopen(url).readlines()
-    frames = [xycparse(lines)]
 
+    frames = data_api.get_frames(df['id'])[:10]
+	lat,lng = frames[5].latitude, frames[5].longitude
     print df['id']
     print url
 
     for frame in frames:
-        ch = frame
+        ch = frame.channels[0]
         blobs = blobbing.find(ch)
         for blob in blobs:
             c = classify(blob)
