@@ -28,35 +28,36 @@ runs = [
     "2016-08-10",
     "2016-08-18"
 ]
-count = 1
+count = 1571
 files= []
 for run in runs:
     print "RUN STARTING", run
     files += data_api.get_data_files(run)
 
-
+files= files[1571:]
 for df in files:
-    print "ANALYSING FILE", count
+	print "ANALYSING FILE", count
 
-    count += 1
+	count += 1
 
-    electron, proton = 0,0
-
-
-    frames = data_api.get_frames(df['id'])[:10]
+	electron, proton = 0,0
+	frames = data_api.get_frames(df['id'])[:10]
+	num_frames = len(frames)
+	if num_frames < 10:
+		continue
 	lat,lng = frames[5].latitude, frames[5].longitude
-    print df['id']
-    print url
 
-    for frame in frames:
-        ch = frame.channels[0]
-        blobs = blobbing.find(ch)
-        for blob in blobs:
-            c = classify(blob)
-            if c == "beta":
-                electron += 1
-            if c == "proton":
-                proton += 1
-    of = open("counts.txt", "a")
-    of.write(str(lat) + "," + str(lng) + "," + str(num_frames) + "," + str(electron) + "," + str(proton) + "\n")
-    of.close()
+	print df['id']
+
+	for frame in frames:
+		ch = frame.channels[0]
+		blobs = blobbing.find(ch)
+		for blob in blobs:
+			c = classify(blob)
+			if c == "beta":
+				electron += 1
+			if c == "proton":
+				proton += 1
+	of = open("counts.txt", "a")
+	of.write(str(lat) + "," + str(lng) + "," + str(num_frames) + "," + str(electron) + "," + str(proton) + "\n")
+	of.close()

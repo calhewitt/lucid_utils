@@ -30,7 +30,7 @@ def get_image(pixels, colourmode = "BW", normalise=False):
 	for x in range(0, 256):
 		for y in range(0, 256):
 			if colourmode == "RGB":
-				im_pixels[x, y] = colour_map((int(pixels[x][y]) / 11810.0) * 256)
+				im_pixels[x, y] = colour_map((float(pixels[x][y]) / 11810.0) * 256)
 			if colourmode == "BW":
 				im_pixels[x, y] = int((pixels[x][y] / 11810) * 256)
 	return im

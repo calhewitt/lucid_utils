@@ -33,7 +33,7 @@ def lookup(lat,lng):
     print lat
     x,y,z = cartesian(lat,lng)
     dists, indices = tree.query((x,y,z), 100)
-    val = np.average([datapoints[index][3] for index in indices], weights=[distfunc(dist) for dist in dists])
+    val = np.average([datapoints[index][4] for index in indices], weights=[distfunc(dist) for dist in dists])
     return val
 data = open("counts.txt").readlines()
 datapoints = []
@@ -51,6 +51,8 @@ tree = scipy.spatial.KDTree([(x,y,z) for x,y,z,e,p in datapoints])
 
 grid = [[lookup(lat,lng) for lng in range(-180,180)] for lat in range(-90,90)]
 
+plt.figure(figsize=(10,7))
+
 m = Basemap(projection='cyl')
 m.imshow(grid,norm=SymLogNorm(linthresh=1.5))
 m.drawcoastlines()
@@ -61,5 +63,7 @@ m.drawparallels(parallels,labels=[True,False,True,False])
 meridians = np.arange(-150,180,30)
 m.drawmeridians(meridians,labels=[True,False,False,True])
 
-plt.colorbar()
+cbar = plt.colorbar(orientation='horizontal', ticks=[0,1,2,4,8,16,32,64,128,256])
+cbar.set_label("Proton Hits per Detector per Frame")
+
 plt.show()
