@@ -1,3 +1,7 @@
+import matplotlib as mpl
+import os
+if not "DISPLAY" in os.environ: # Make MPL Work if no display is available
+	mpl.use('Agg')
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,6 +41,8 @@ def get_image(frame, colourmode = "BW", normalise=False):
 	return im
 
 def show_frame(frame):
+	if not "DISPLAY" in os.environ:
+		raise Exception("No display available")
 	fig, ax = plt.subplots()
 	cmap = cm.hot
 	cmap.set_under("#82bcff")
