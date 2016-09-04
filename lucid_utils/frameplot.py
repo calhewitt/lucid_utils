@@ -1,36 +1,46 @@
 from PIL import Image
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from matplotlib.backends.backend_agg import FigureCanvasAgg
 
-# Functions to plot LUCID frames
 
-def colour_map(bw):
-	if bw == 0:
-		return (112, 167, 223)
-	r, g, b = 0, 0, 0
-	if bw < 85:
-		r = bw * 3
-	elif bw < 170:
-		r = 255
-		g = (bw - 85) * 3
-	else:
-		r = 255
-		g = 255
-		b = (bw - 170) * 3
-	return (int(r), int(g), int(b))
+def get_image(frame, colourmode = "BW", normalise=False):
+	fig = plt.figure(frameon=False, figsize=(256,256), dpi=1)
+	ax = plt.Axes(fig, [0., 0., 1., 1.])
+	ax.set_axis_off()
+	fig.add_axes(ax)
 
-def get_image(pixels, colourmode = "BW", normalise=False):
-	if normalise:
-		pixels *= (11810.0 / max(pixels.flatten()))
-	pilmode = "L"
-	if colourmode == "RGB":
-		pilmode = "RGB"
-	im = Image.new(pilmode, (256, 256), "black")
-	im_pixels = im.load()
+	cmap = cm.hot
+	cmap.set_under("#82bcff")
+	vm = np.max(frame) if (np.count_nonzero(frame) > 0) else 2
+	ax.imshow(frame, vmin = 1, vmax=vm, cmap = cmap, interpolation='none')
 
-	for x in range(0, 256):
-		for y in range(0, 256):
-			if colourmode == "RGB":
-				im_pixels[x, y] = colour_map((float(pixels[x][y]) / 11810.0) * 256)
-			if colourmode == "BW":
-				im_pixels[x, y] = int((pixels[x][y] / 11810) * 256)
+	canvas = plt.get_current_fig_manager().canvas
+
+	agg = canvas.switch_backends(FigureCanvasAgg)
+	agg.draw()
+	s = agg.tostring_rgb()
+
+	l, b, w, h = agg.figure.bbox.bounds
+	w, h = int(w), int(h)
+
+	X = np.fromstring(s, np.uint8)
+	X.shape = h, w, 3
+
+	plt.close()
+
+	try:
+	    im = Image.fromstring("RGB", (w, h), s)
+	except Exception:
+	    im = Image.frombytes("RGB", (w, h), s)
 	return im
+
+def show_frame(frame):
+	fig, ax = plt.subplots()
+	cmap = cm.hot
+	cmap.set_under("#82bcff")
+	vm = np.max(frame) if (np.count_nonzero(frame) > 0) else 2
+	cax = ax.imshow(frame, vmin = 1, vmax=vm, cmap = cmap, interpolation='none')
+	fig.colorbar(cax)
+	plt.show()
