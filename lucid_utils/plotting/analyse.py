@@ -1,8 +1,9 @@
+from __future__ import print_function
 from lucid_utils import data_api
 from lucid_utils import blobbing
 from lucid_utils.classification.lucid_algorithm import classify
-import urllib2 as urllib
 import numpy as np
+
 
 def xycparse(lines):
 	frame = np.zeros((256, 256))
@@ -31,12 +32,12 @@ runs = [
 count = 1571
 files= []
 for run in runs:
-    print "RUN STARTING", run
-    files += data_api.get_data_files(run)
+	print("RUN STARTING", run)
+	files += data_api.get_data_files(run)
 
 files= files[1571:]
 for df in files:
-	print "ANALYSING FILE", count
+	print("ANALYSING FILE", count)
 
 	count += 1
 
@@ -47,7 +48,7 @@ for df in files:
 		continue
 	lat,lng = frames[5].latitude, frames[5].longitude
 
-	print df['id']
+	print(df['id'])
 
 	for frame in frames:
 		ch = frame.channels[0]

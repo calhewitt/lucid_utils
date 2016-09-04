@@ -1,7 +1,11 @@
 import numpy as np
 from scipy.spatial.distance import euclidean as dist
 from copy import deepcopy
-from Queue import Queue
+try:
+	from Queue import Queue
+except ImportError:
+	from queue import Queue
+
 
 class BlobFinder:
 

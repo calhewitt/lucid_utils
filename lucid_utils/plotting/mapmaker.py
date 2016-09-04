@@ -1,5 +1,5 @@
 # The definitive LUCID mapmaker!
-
+from __future__ import print_function
 import numpy as np
 from numpy import sin,cos,tan # For convenience
 import matplotlib.pyplot as plt
@@ -8,7 +8,6 @@ import scipy.spatial
 from matplotlib.colors import LogNorm
 import sys
 from mpl_toolkits.basemap import Basemap
-
 
 def distfunc(dist):
     return np.exp(((dist**2)*-100))
@@ -30,7 +29,7 @@ def cartesian(lat, lng):
     return (x,y,z)
 
 def lookup(lat,lng):
-    print lat
+    print(lat)
     x,y,z = cartesian(lat,lng)
     dists, indices = tree.query((x,y,z), 100)
     val = np.average([datapoints[index][4] for index in indices], weights=[distfunc(dist) for dist in dists])
