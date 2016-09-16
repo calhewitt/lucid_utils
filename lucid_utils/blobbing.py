@@ -49,5 +49,5 @@ class BlobFinder:
 		return self.blobs
 
 
-def find(frame, rad=3):
+def find(frame, rad=2.9):
 	return BlobFinder(frame,rad).find()

@@ -50,3 +50,11 @@ def show_frame(frame):
 	cax = ax.imshow(frame, vmin = 1, vmax=vm, cmap = cmap, interpolation='none')
 	fig.colorbar(cax)
 	plt.show()
+
+def show_blob(blob):
+	xs, ys = zip(*blob)
+	sizex, sizey = max(xs) - min(xs), max(ys) - min(ys)
+	toshow = np.zeros((sizex+3,sizey+3))
+	for i in range(len(xs)):
+		toshow[1 + xs[i] - min(xs)][1 + ys[i] - min(ys)] = 1
+	show_frame(toshow)
