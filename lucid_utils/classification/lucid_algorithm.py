@@ -1,12 +1,4 @@
 # AUTHOR: Cal Hewitt
-# An alternative analysis strategy based on the same metrics (calculated in common.py) as earlier algorithms
-# A 'mode' can be specified as an argument to the classify function - this can either be
-# (i) MODE_LUCID - Prioritise the distinction between protons and electrons - this can be done with much more accuracy
-#   than previous algorithms, though this still has a habit of misclassifying some betas
-# (ii) MODE_CERNATSCHOOL - Classify ONLY alpha, beta and gamma, though this is very accurate with these particle types
-# Generally, the algorithm will classify 'agressively', ie. never returning a 'not sure' verdict - this is useful
-# for generating counts for mapping with LUCID data.
-# TODO develop separate modes for lower 'agression' settings
 
 try:
     import common

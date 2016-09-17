@@ -49,30 +49,6 @@ class Blob:
         self.avg_neighbours = self.find_avg_neighbours()
         self.symmetricality = self.find_symmetricality()
 
-    def find_symmetricality(self):
-        # Convert pixels to new CS - real axis is best fit line, centroid is (0,0)
-        def rotation(theta):
-            return np.cos(theta) + np.sin(theta)*1j
-
-        pixels = [x + y*1j for x,y in self.pixels]
-        pixels = [p - self.centroid[0] for p in pixels]
-        pixels = [p - self.centroid[1]*1j for p in pixels]
-        pixels = [p*rotation(self.best_fit_theta * -1) for p in pixels]
-        # Sort by real part (position along BFL)
-        pixels.sort(key=lambda p: p.real)
-        # And split into chunk-os
-        parts = chunks(pixels, 3)
-        # Examine each chunk individually
-        syms = [] # To store symmetricality value for each chunk
-        for part in parts:
-            pos = len([p for p in part if p.imag > 0])
-            neg = len([p for p in part if p.imag < 0])
-            if pos+neg == 0:
-                continue
-            sym = float(min(pos,neg)) / max(pos,neg)
-            syms.append(sym)
-        return np.mean(syms) if len(syms) else 0
-
     def find_avg_neighbours(self):
         n_ns = []
         for x,y in self.pixels:
@@ -156,13 +132,3 @@ class Blob:
         # circle[3] is being minimised
         test_circles.sort(key = lambda circle: circle[3])
         return test_circles[0]
-
-    def plot(self):
-        # Plot and show an image of a blob
-        blank_frame = np.zeros((256,256))
-        for pixel in self.pixels:
-            blank_frame[pixel[1]][pixel[0]] = 256
-        B = np.argwhere(blank_frame)
-        (ystart, xstart), (ystop, xstop) = B.min(0), B.max(0) + 1
-        blank_frame = blank_frame[ystart:ystop, xstart:xstop]
-        Image.fromarray(blank_frame).resize((blank_frame.shape[1]*50, blank_frame.shape[0]*50)).transpose(Image.FLIP_TOP_BOTTOM).show()
