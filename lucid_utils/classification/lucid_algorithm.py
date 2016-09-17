@@ -12,7 +12,7 @@ class Blob(common.Blob):
             return 'gamma'
         if self.num_pixels < 8:
             return 'beta' # protons always leave more of a splash
-        if (self.density > 0.75 and self.num_pixels > 11) or (self.avg_neighbours > 6 and self.curvature_radius > 5):
+        if (self.density > 0.75 and self.num_pixels > 11) or (self.avg_neighbours > 6 and self.curvature_radius > 8):
             return 'alpha'
         if (self.line_residual / self.radius) < 0.1 and self.radius > 40:
             # Straight clusters over a certain radius will always be caused by a muon
