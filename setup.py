@@ -6,7 +6,7 @@ def read(fname):
 
 setup(
     name = "lucid_utils",
-    version = "16.09.5",
+    version = "16.9.17",
     author = "Cal Hewitt",
     author_email = "hello@calhewitt.xyz",
     description = ("A library for analysing LUCID data"),
@@ -24,6 +24,7 @@ setup(
           'numpy',
           'scipy',
           'pyephem',
-          'pillow'
+          'pillow',
+          'matplotlib',
       ],
 )

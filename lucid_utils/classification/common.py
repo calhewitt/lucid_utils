@@ -47,7 +47,6 @@ class Blob:
         self.line_residual = self.squiggliness # For silly people who like words which actually exist
         self.width = self.num_pixels / (2 * self.radius) if not self.num_pixels == 1 else 0
         self.avg_neighbours = self.find_avg_neighbours()
-        self.symmetricality = self.find_symmetricality()
 
     def find_avg_neighbours(self):
         n_ns = []
