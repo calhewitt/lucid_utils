@@ -52,8 +52,6 @@ def show_frame(frame):
 	plt.show()
 
 def fig_frame(frame):
-	if not "DISPLAY" in os.environ:
-		raise Exception("No display available")
 	fig, ax = plt.subplots()
 	cmap = cm.hot
 	cmap.set_under("#82bcff")
