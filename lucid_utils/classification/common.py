@@ -10,6 +10,11 @@ try:
 except ImportError:
     from . import least_squares_circle
 
+def chunks(l, n):
+    """Yield successive n-sized chunks from l."""
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
+
 def distance(point1, point2):
     # Simple 2D distance function using Pythagoras:
     # Calculates the distance between point1 (x, y) and point2 (x, y)
@@ -41,6 +46,17 @@ class Blob:
         self.circle_residual = self.best_fit_circle[3]
         self.line_residual = self.squiggliness # For silly people who like words which actually exist
         self.width = self.num_pixels / (2 * self.radius) if not self.num_pixels == 1 else 0
+        self.avg_neighbours = self.find_avg_neighbours()
+
+    def find_avg_neighbours(self):
+        n_ns = []
+        for x,y in self.pixels:
+            count = 0
+            for possibility in [(x+dx,y+dy) for dx in [-1,0,1] for dy in [-1,0,1] if not (dx == 0 and dy ==0)]:
+                if possibility in self.pixels:
+                    count += 1
+            n_ns.append(count)
+        return np.mean(n_ns)
 
     def find_centroid(self):
         # Firstly, compute the centroid of the blob
@@ -89,7 +105,7 @@ class Blob:
         best_fit_theta = leastsq(self.residuals, first_guess_theta, args = (np.array(y_vals), np.array(x_vals)))[0] % (np.pi)
         #print np.degrees(best_fit_theta)
         squiggliness = np.sum([point_line_distance(p, self.centroid, best_fit_theta)**2 for p in self.pixels])
-        return squiggliness, np.degrees(best_fit_theta)[0]
+        return squiggliness, best_fit_theta[0]
 
     # For the regression in squiggliness calculations...
     def residuals(self, theta, y, x):
@@ -115,13 +131,3 @@ class Blob:
         # circle[3] is being minimised
         test_circles.sort(key = lambda circle: circle[3])
         return test_circles[0]
-
-    def plot(self):
-        # Plot and show an image of a blob
-        blank_frame = np.zeros((256,256))
-        for pixel in self.pixels:
-            blank_frame[pixel[1]][pixel[0]] = 256
-        B = np.argwhere(blank_frame)
-        (ystart, xstart), (ystop, xstop) = B.min(0), B.max(0) + 1
-        blank_frame = blank_frame[ystart:ystop, xstart:xstop]
-        Image.fromarray(blank_frame).resize((blank_frame.shape[1]*50, blank_frame.shape[0]*50)).transpose(Image.FLIP_TOP_BOTTOM).show()

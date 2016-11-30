@@ -6,12 +6,14 @@ def read(fname):
 
 setup(
     name = "lucid_utils",
-    version = "16.08.28",
+    version = "16.10.3",
     author = "Cal Hewitt",
     author_email = "hello@calhewitt.xyz",
     description = ("A library for analysing LUCID data"),
     license = "MIT",
     packages=find_packages(),
+    package_data={'': ['*.txt']},
+    include_package_data=True,
     long_description="A library for analysing LUCID data",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -22,6 +24,7 @@ setup(
           'numpy',
           'scipy',
           'pyephem',
-          'pillow'
+          'pillow',
+          'matplotlib',
       ],
 )

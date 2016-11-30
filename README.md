@@ -4,7 +4,7 @@ A Python library containing tools for accessing, parsing, analysing and interpre
 
 To install (with all dependencies), simply run:
 
-```shell
+```
 # pip install lucid_utils
 ```
 
@@ -28,7 +28,7 @@ Or, for development purposes, the library can be installed manually:
 
 Or,
 
-```shell
+```
 $ sudo apt-get install python-numpy python-scipy python-imaging
 $ sudo pip install pyephem geopy
 ```
@@ -36,13 +36,13 @@ $ sudo pip install pyephem geopy
 
 Once all of the above libraries have been installed, simply clone the repo:
 
-```shell
+```
 $ git clone https://github.com/calhewitt/lucid-utils
 ```
 
 and copy or link it to your Python libraries folder, for example:
 
-```shell
+```
 $ cp -r lucid-utils /usr/lib/python2.7/lucid_utils
 ```
 
