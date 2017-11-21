@@ -51,11 +51,8 @@ class Blob:
     def find_avg_neighbours(self):
         n_ns = []
         for x,y in self.pixels:
-            count = 0
-            for possibility in [(x+dx,y+dy) for dx in [-1,0,1] for dy in [-1,0,1] if not (dx == 0 and dy ==0)]:
-                if possibility in self.pixels:
-                    count += 1
-            n_ns.append(count)
+            z = [(x-1,y-1), (x-1, y), (x-1, y+1), (x, y-1), (x,y+1), (x+1, y-1), (x+1, y), (x+1, y+1)]
+            n_ns.append(len(set(z).intersection(self.pixels)))
         return np.mean(n_ns)
 
     def find_centroid(self):
